@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo 6: TRANSFERENCIA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ESTILOS GLOBALES ESTANDARIZADOS */
+        :root { 
+            --sena-green: #39A900; 
+            --sena-blue: #00324D; 
+            --sena-orange: #FF6C00; 
+            --bg-body: #F4F6F9; 
+            --bg-card: #FFFFFF; 
+            --text-gray: #59667a; 
+            --shadow: 0 4px 20px rgba(0,0,0,0.05); 
+            --radius: 12px; 
+            --menu-width: 300px; 
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Roboto', sans-serif; background-color: var(--bg-body); color: var(--sena-blue); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+        
+        /* HEADER */
+        header { background-color: var(--bg-card); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 100; }
+        .header-title { 
+            flex: 1; 
+            text-align: center; 
+            font-family: 'Montserrat'; 
+            font-weight: 700; 
+            letter-spacing: 1.7px; 
+            color: var(--sena-blue);
+            text-transform: uppercase;
+	    font-size: 1rm;
+        }
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Esto da espacio entre el logo y el botón */
+    flex-shrink: 0; /* Evita que el logo se haga pequeño */
+}
+        .back-btn { text-decoration: none; color: var(--sena-blue); font-weight: bold; display: flex; align-items: center; gap: 10px; transition: color 0.3s; font-size: 0.9rem; }
+        .back-btn:hover { color: var(--sena-orange); }
+
+        /* LAYOUT */
+        .main-layout { display: flex; flex: 1; max-width: 1400px; margin: 1.5rem auto; gap: 1.5rem; width: 100%; padding: 0 20px; }
+        
+        /* SIDEBAR */
+        .sidebar { width: var(--menu-width); background: var(--bg-card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.5rem; height: fit-content; position: sticky; top: 1.5rem; }
+        .sidebar h3 { font-family: 'Montserrat'; color: var(--sena-green); margin-bottom: 1rem; border-bottom: 2px solid #eee; padding-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        
+        .menu-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; margin-bottom: 8px; border-radius: 8px; cursor: pointer; transition: all 0.3s; color: var(--text-gray); font-size: 0.85rem; font-weight: 500; }
+        .menu-item img { width: 24px; height: 24px; object-fit: contain; }
+        .menu-item:hover { background: #f0fdf4; color: var(--sena-green); }
+        .menu-item.active { background: var(--sena-blue); color: white; box-shadow: 0 4px 10px rgba(0, 50, 77, 0.2); }
+        .menu-item.completed { border-left: 4px solid var(--sena-green); }
+
+        /* PROGRESS BAR SIDEBAR */
+        .sidebar-progress { margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee; }
+        .sidebar-progress label { font-size: 0.75rem; font-weight: bold; color: var(--sena-blue); display: block; margin-bottom: 5px; }
+        .progress-container { background: #eee; border-radius: 10px; height: 8px; width: 100%; overflow: hidden; }
+        .progress-bar-fill { background: var(--sena-green); height: 100%; width: 0%; transition: width 0.5s ease; }
+
+        /* CONTENIDO */
+        .content-area { flex: 1; background: var(--bg-card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 2rem; min-height: 650px; position: relative; }
+        .activity-section { display: none; animation: fadeIn 0.4s ease; }
+        .activity-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* PORTADA CARDS */
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; }
+        .info-card { background: #f8fafc; padding: 15px; border-radius: 10px; border-left: 4px solid var(--sena-orange); }
+        .info-card i { color: var(--sena-orange); margin-bottom: 5px; }
+        .info-card strong { display: block; font-size: 0.8rem; text-transform: uppercase; color: var(--text-gray); }
+        .info-card p { font-size: 0.95rem; font-weight: 500; }
+
+        /* BOTONES */
+        .btn-pdf { background: #e74c3c; color: white; padding: 12px 25px; border-radius: 30px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; font-weight: bold; transition: 0.3s; margin: 20px auto; display: table; }
+        .btn-pdf:hover { background: #c0392b; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3); }
+        
+        .nav-buttons { display: flex; justify-content: center; gap: 20px; margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px; }
+        .btn-nav { padding: 10px 30px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn-next { background: var(--sena-green); color: white; }
+        .btn-next:hover { background: #2d8600; }
+
+        /* BIOSEGURIDAD CARDS */
+        .safety-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 20px; }
+        .safety-card { border-radius: 10px; padding: 15px; text-align: center; border: 1px solid #eee; transition: 0.3s; }
+        .safety-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
+        .safety-card img { width: 80px; height: 80px; margin-bottom: 10px; }
+        .danger { border-top: 5px solid #e74c3c; background: #fff5f5; }
+        .prohibition { border-top: 5px solid #636e72; background: #f1f2f6; }
+        .obligation { border-top: 5px solid #0984e3; background: #f1f9ff; }
+
+        /* INSIGNIA ANIMATION */
+        #insignia-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,50,77,0.98); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 2000; animation: fadeIn 0.8s; }
+        .insignia-img { width: 300px; animation: scaleIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); margin-bottom: 20px; }
+ @keyframes scaleIn { from { transform: scale(0) rotate(-180deg); opacity: 0; } to { transform: scale(1) rotate(0); opacity: 1; } }
+        
+        /* CASE STUDY */
+        .case-container { background: #fff; border: 2px solid var(--sena-blue); border-radius: 15px; padding: 25px; margin-bottom: 30px; }
+        .quiz-option { background: #f9f9f9; padding: 12px 20px; margin: 10px 0; border-radius: 8px; cursor: pointer; border: 1px solid #ddd; transition: 0.3s; }
+        .quiz-option:hover { background: #eef2ff; border-color: var(--sena-blue); }
+        .quiz-option.correct { background: #dcfce7; border-color: var(--sena-green); color: #166534; }
+        .quiz-option.wrong { background: #fee2e2; border-color: #ef4444; color: #991b1b; }
+
+        @media (max-width: 992px) { .main-layout { flex-direction: column; } .sidebar { width: 100%; position: static; } }
+    </style>
+</head>
+<body>
+
+    <header>
+    <div class="header-left" style="display: flex; align-items: center; gap: 20px;">
+        <img src="imagenes/Logos/sena.png" alt="SENA" style="height: 45px;">
+        <a href="index.html" class="back-btn" style="white-space: nowrap;">
+            <i class="fas fa-arrow-left"></i> Volver al Centro de Comando
+        </a>
+    </div>
+    <div class="header-title">Módulo 6: TRANSFERENCIA</div>
+    <img src="imagenes/Logos/tecnoacademia.jpeg" alt="TecnoAcademia" style="height: 45px;">
+</header>
+
+    <div class="main-layout">
+        <aside class="sidebar">
+            <h3><i class="fas fa-tasks"></i> Progreso</h3>
+            <div id="sidebar-menu">
+                </div>
+            
+            <div class="sidebar-progress">
+                <label>Completado: <span id="progress-text">0%</span></label>
+                <div class="progress-container">
+                    <div id="progress-bar-fill" class="progress-bar-fill"></div>
+                </div>
+            </div>
+
+        </aside>
+
+        <main class="content-area">
+            
+            <section id="sec-1" class="activity-section active">
+                <div style="display: flex; align-items: center; gap: 25px; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); padding: 30px; border-radius: 20px; margin-bottom: 30px; border: 1px solid #bbf7d0; box-shadow: var(--shadow);">
+                    <img src="imagenes/Personajes/tecnoBot/para talleres_Mesa de trabajo 1.png" style="width: 180px; filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1));" alt="TecnoBot">
+                    <div>
+                        <h2 style="color: var(--sena-green); font-family: 'Montserrat'; font-size: 1.8rem; margin-bottom: 10px;">¡Misión Final: El Gran Lanzamiento!</h2>
+                        <p style="font-size: 1.1rem; color: var(--sena-blue); font-weight: 400;">
+                            ¡Felicidades, Ingeniero/a! Has recorrido un largo camino. En esta etapa de <strong>Transferencia</strong>, dejarás de ser un aprendiz para convertirte en un mentor. Es el momento de demostrar que tu prototipo no solo funciona, sino que está listo para cambiar el mundo.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-card" style="border-left-color: var(--sena-green);">
+                        <i class="fas fa-rocket fa-lg"></i>
+                        <strong>Meta del Módulo</strong>
+                        <p>Validar y comunicar tu prototipo VideoTech.</p>
+                    </div>
+                    <div class="info-card" style="border-left-color: var(--sena-blue);">
+                        <i class="fas fa-map-marker-alt fa-lg"></i>
+                        <strong>Escenario</strong>
+                        <p>Laboratorio de Prototipado 3D</p>
+                    </div>
+                    <div class="info-card" style="border-left-color: var(--sena-orange);">
+                        <i class="fas fa-clock fa-lg"></i>
+                        <strong>Inversión de Tiempo</strong>
+                        <p>6 Horas de pura acción Maker</p>
+                    </div>
+                  </div>
+
+                <div style="margin: 35px 0; padding: 25px; background: #fff; border-radius: 15px; border: 1px dashed #cbd5e1;">
+                    <h3 style="text-align: center; margin-bottom: 20px; color: var(--sena-blue); font-family: 'Montserrat';">¿Qué harás en esta etapa?</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; text-align: center;">
+                        <div>
+                            <div style="background: #eff6ff; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; color: #3b82f6;">
+                                <i class="fas fa-check-circle fa-xl"></i>
+                            </div>
+                            <span style="font-size: 0.85rem; font-weight: 600;">Validar Funcionamiento</span>
+                        </div>
+                        <div>
+                            <div style="background: #fff7ed; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; color: #f97316;">
+                                <i class="fas fa-video fa-xl"></i>
+                            </div>
+                            <span style="font-size: 0.85rem; font-weight: 600;">Producción Audiovisual</span>
+                        </div>
+                        <div>
+                            <div style="background: #fdf2f8; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; color: #db2777;">
+                                <i class="fas fa-share-alt fa-xl"></i>
+                            </div>
+                            <span style="font-size: 0.85rem; font-weight: 600;">Socializar Hallazgos</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: var(--sena-blue); color: white; padding: 25px; border-radius: 15px; text-align: center; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center;">
+                    <i class="fas fa-file-pdf" style="position: absolute; right: -10px; bottom: -10px; font-size: 100px; opacity: 0.1;"></i>
+                    <p style="margin-bottom: 15px; font-size: 1rem; position: relative; width: 100%;">Antes de empezar, asegúrate de tener tu hoja de ruta técnica:</p>
+                    
+                    <div style="width: 100%; display: flex; justify-content: center;">
+                        <a href="documentos/Anexos/Anexo_G3_Taller 7_VideoTech Prototipo.pdf" class="btn-pdf" target="_blank" style="margin: 0; position: relative; display: inline-flex;">
+                            <i class="fas fa-download"></i> DESCARGAR GUÍA TALLER 7
+                        </a>
+                    </div>
+                </div>
+
+                <div class="nav-buttons">
+                    <button class="btn-nav btn-next" onclick="nextSection(1)" style="padding: 15px 40px; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(57, 169, 0, 0.3);">
+                        ¡ESTOY LISTO PARA EMPEZAR! <i class="fas fa-chevron-right" style="margin-left: 10px;"></i>
+                    </button>
+                </div>
+            </section>
+
+            <section id="sec-2" class="activity-section">
+    <div class="section-header" style="text-align: center; margin-bottom: 30px;">
+        <h2 style="color: var(--sena-blue); font-size: 2rem;"><i class="fas fa-project-diagram" style="color: var(--sena-green);"></i> ¿Por qué la Transferencia?</h2>
+        <div style="width: 80px; height: 4px; background: var(--sena-orange); margin: 10px auto; border-radius: 2px;"></div>
+    </div>
+
+    <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); margin-bottom: 30px; border-left: 6px solid var(--sena-green);">
+        <p style="font-size: 1.1rem; line-height: 1.8;">
+            En el mundo de la ingeniería y el diseño <strong>MAKER</strong>, un prototipo no se considera terminado cuando el último tornillo es ajustado. ¡Realmente termina cuando puede ser <strong>explicado, replicado y validado</strong> por otros!
+        </p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 35px;">
+        <div style="background: var(--sena-blue); color: white; padding: 25px; border-radius: 20px; position: relative; overflow: hidden;">
+            <i class="fas fa-lightbulb" style="position: absolute; right: -10px; top: -10px; font-size: 80px; opacity: 0.15; color: var(--sena-orange);"></i>
+            <h4 style="color: var(--sena-orange); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-industry"></i> El Estándar de la Industria
+            </h4>
+            <p style="font-size: 0.95rem; line-height: 1.6;">
+                Gigantes como <strong>Tesla, SpaceX o Apple</strong> no solo fabrican productos asombrosos; crean documentación visual y técnica impecable. Esto permite que:
+            </p>
+            <ul style="margin-top: 10px; font-size: 0.9rem; margin-left: 20px;">
+                <li>Los usuarios entiendan cómo usar la tecnología.</li>
+                <li>Otros ingenieros puedan mejorar el diseño (Open Source).</li>
+                <li>Se demuestre la seguridad y calidad del proceso.</li>
+            </ul>
+        </div>
+
+        <div style="background: #f0fdf4; border: 2px dashed var(--sena-green); padding: 25px; border-radius: 20px;">
+            <h4 style="color: var(--sena-green); margin-bottom: 15px;">
+                <i class="fas fa-bridge"></i> El Puente al Mundo Real
+            </h4>
+            <p style="font-size: 0.95rem; color: var(--sena-blue);">
+                La <strong>Transferencia</strong> es ese puente vital que conecta tu mesa de trabajo en la TecnoAcademia con las necesidades de tu comunidad. Sin una buena comunicación, incluso la mejor idea puede quedarse en el olvido.
+            </p>
+            <div style="margin-top: 15px; padding: 10px; background: white; border-radius: 10px; font-weight: bold; text-align: center; color: var(--sena-blue); font-size: 0.85rem;">
+                ¡Hoy aprenderás a vender tu idea como un profesional!
+            </div>
+        </div>
+    </div>
+
+    
+
+    <h3 style="text-align: center; font-family: 'Montserrat'; margin-bottom: 25px; color: var(--sena-blue);">
+        Tu Hoja de Ruta para la Transferencia:
+    </h3>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin-bottom: 40px;">
+        <div style="background: #fff; padding: 20px; border-radius: 15px; text-align: center; border-bottom: 4px solid #3b82f6; transition: 0.3s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+            <div style="background: #eff6ff; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
+                <i class="fas fa-pencil-ruler fa-2x" style="color: #3b82f6;"></i>
+            </div>
+            <h5 style="margin-bottom: 10px; color: #1e3a8a;">1. DOCUMENTAR</h5>
+            <p style="font-size: 0.8rem; color: var(--text-gray);">Captura bocetos, medidas y errores aprendidos durante el proceso.</p>
+        </div>
+
+        <div style="background: #fff; padding: 20px; border-radius: 15px; text-align: center; border-bottom: 4px solid var(--sena-orange); transition: 0.3s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+            <div style="background: #fff7ed; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
+                <i class="fas fa-cogs fa-2x" style="color: var(--sena-orange);"></i>
+            </div>
+            <h5 style="margin-bottom: 10px; color: #7c2d12;">2. EJECUTAR</h5>
+            <p style="font-size: 0.8rem; color: var(--text-gray);">Pon a prueba tu VideoTech en escenarios reales y registra los datos.</p>
+        </div>
+
+        <div style="background: #fff; padding: 20px; border-radius: 15px; text-align: center; border-bottom: 4px solid var(--sena-green); transition: 0.3s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+            <div style="background: #f0fdf4; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
+                <i class="fas fa-video fa-2x" style="color: var(--sena-green);"></i>
+            </div>
+            <h5 style="margin-bottom: 10px; color: #064e3b;">3. COMUNICAR</h5>
+            <p style="font-size: 0.8rem; color: var(--text-gray);">Crea un impacto visual que inspire a otros a seguir innovando.</p>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <button class="btn-nav btn-next" onclick="nextSection(2)" style="padding: 12px 35px; border-radius: 30px; background: var(--sena-blue); color: white;">
+            ENTENDIDO, ¡VAMOS A LOS DETALLES! <i class="fas fa-chevron-right" style="margin-left: 10px;"></i>
+        </button>
+    </div>
+</section>
+
+            <section id="sec-3" class="activity-section">
+    <div class="section-header" style="text-align: center; margin-bottom: 30px;">
+        <h2 style="color: var(--sena-blue); font-size: 2.2rem; font-family: 'Montserrat';">
+            <i class="fas fa-video" style="color: var(--sena-orange);"></i> Taller 7: VideoTech Prototipo
+        </h2>
+        <p style="color: var(--text-gray); font-weight: 500;">¡Luces, Cámara y Acción Maker!</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
+        <div style="display: flex; align-items: center; gap: 15px; background: #fffbeb; padding: 20px; border-radius: 15px; border-left: 5px solid #f59e0b; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <img src="imagenes/Personajes/Maker/Dani_Pasteur.png" style="width: 70px; border-radius: 50%; background: white;" alt="Dani Pasteur">
+            <p style="font-size: 0.9rem; color: #92400e; line-height: 1.4;">
+                "¡Expedicionarios! El video es su <strong>portafolio al mundo</strong>. No solo muestren el final, cuenten la historia de cómo superaron cada reto."
+            </p>
+        </div>
+        <div style="display: flex; align-items: center; gap: 15px; background: #eff6ff; padding: 20px; border-radius: 15px; border-left: 5px solid #3b82f6; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <img src="imagenes/Personajes/Maker/Dra. Rosalind.png" style="width: 70px; border-radius: 50%; background: white;" alt="Dra. Rosalind">
+            <p style="font-size: 0.9rem; color: #1e40af; line-height: 1.4;">
+                "La clave está en los detalles técnicos. Usen el <strong>Anexo G3</strong> como su guion para no olvidar ninguna fase importante del prototipado."
+            </p>
+        </div>
+    </div>
+
+    <h3 style="color: var(--sena-blue); margin-bottom: 20px; font-family: 'Montserrat'; display: flex; align-items: center; gap: 10px;">
+        <i class="fas fa-list-ol" style="color: var(--sena-green);"></i> ¿Qué debe incluir tu VideoTech?
+    </h3>
+
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 30px;">
+        <div style="background: white; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; transition: 0.3s;" onmouseover="this.style.borderColor='var(--sena-green)'" onmouseout="this.style.borderColor='#e2e8f0'">
+            <strong style="color: var(--sena-green); display: block; margin-bottom: 5px;"><i class="fas fa-pencil-alt"></i> 1. El Origen</strong>
+            <p style="font-size: 0.85rem; color: var(--text-gray);">Muestra tus bocetos iniciales y explica el problema que decidiste resolver.</p>
+        </div>
+        <div style="background: white; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; transition: 0.3s;" onmouseover="this.style.borderColor='var(--sena-green)'" onmouseout="this.style.borderColor='#e2e8f0'">
+            <strong style="color: var(--sena-green); display: block; margin-bottom: 5px;"><i class="fas fa-microchip"></i> 2. Corazón Técnico</strong>
+            <p style="font-size: 0.85rem; color: var(--text-gray);">Explica los componentes electrónicos y el diseño 3D en el software.</p>
+        </div>
+        <div style="background: white; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; transition: 0.3s;" onmouseover="this.style.borderColor='var(--sena-green)'" onmouseout="this.style.borderColor='#e2e8f0'">
+            <strong style="color: var(--sena-green); display: block; margin-bottom: 5px;"><i class="fas fa-hammer"></i> 3. El Proceso Maker</strong>
+            <p style="font-size: 0.85rem; color: var(--text-gray);">Crea un 'Time-lapse' o fotos del ensamblaje y la impresión de las piezas.</p>
+        </div>
+        <div style="background: white; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; transition: 0.3s;" onmouseover="this.style.borderColor='var(--sena-green)'" onmouseout="this.style.borderColor='#e2e8f0'">
+            <strong style="color: var(--sena-green); display: block; margin-bottom: 5px;"><i class="fas fa-vial"></i> 4. Prueba de Fuego</strong>
+            <p style="font-size: 0.85rem; color: var(--text-gray);">¡Muestra tu prototipo funcionando en el mundo real! Registra los resultados.</p>
+        </div>
+    </div>
+
+    <div style="background: var(--sena-blue); color: white; padding: 25px; border-radius: 20px; margin-bottom: 30px;">
+        <h4 style="color: var(--sena-orange); margin-bottom: 15px;"><i class="fas fa-lightbulb"></i> Tips Pro para tu Video:</h4>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; text-align: center;">
+            <div>
+                <i class="fas fa-mobile-alt fa-2x" style="margin-bottom: 10px; transform: rotate(90deg);"></i>
+                <p style="font-size: 0.75rem;">Graba siempre en <strong>Horizontal</strong></p>
+            </div>
+            <div>
+                <i class="fas fa-volume-up fa-2x" style="margin-bottom: 10px;"></i>
+                <p style="font-size: 0.75rem;">Cuida el <strong>Audio</strong> (usa manos libres)</p>
+            </div>
+            <div>
+                <i class="fas fa-sun fa-2x" style="margin-bottom: 10px;"></i>
+                <p style="font-size: 0.75rem;">Busca <strong>Buena Luz</strong> natural</p>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="nav-buttons">
+        <button class="btn-nav btn-next" onclick="nextSection(3)">
+            CONTINUAR A BIOSEGURIDAD <i class="fas fa-chevron-right" style="margin-left: 10px;"></i>
+        </button>
+    </div>
+</section>
+
+            <section id="sec-4" class="activity-section">
+                <div class="section-header">
+                    <h2>Bioseguridad y Seguridad Técnica</h2>
+                </div>
+
+                <h3>ADVERTENCIA DE PELIGRO</h3>
+                <div class="safety-grid">
+                    <div class="safety-card danger">
+                        <i class="fas fa-bolt fa-3x" style="color:#e74c3c;"></i>
+                        <p><strong>Riesgo Eléctrico</strong></p>
+                        <span style="font-size: 0.8rem;">Cuidado con cables expuestos y fuentes de poder.</span>
+                    </div>
+                    <div class="safety-card danger">
+                        <i class="fas fa-thermometer-high fa-3x" style="color:#e74c3c;"></i>
+                        <p><strong>Alta Temperatura</strong></p>
+                        <span style="font-size: 0.8rem;">Extrusores de 3D y cautines superan los 200°C.</span>
+                    </div>
+                    <div class="safety-card danger">
+                        <i class="fas fa-cut fa-3x" style="color:#e74c3c;"></i>
+                        <p><strong>Elementos Afilados</strong></p>
+                        <span style="font-size: 0.8rem;">Bisturíes y espátulas de retiro de piezas.</span>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 30px;">PROHIBICIONES</h3>
+                <div class="safety-grid">
+                    <div class="safety-card prohibition">
+                        <i class="fas fa-hamburger fa-3x"></i>
+                        <p><strong>Prohibido Comer</strong></p>
+                        <span style="font-size: 0.8rem;">Evita contaminar circuitos y equipos.</span>
+                    </div>
+                    <div class="safety-card prohibition">
+                        <i class="fas fa-hands-helping fa-3x"></i>
+                        <p><strong>Prohibido Empujar</strong></p>
+                        <span style="font-size: 0.8rem;">El orden evita accidentes graves.</span>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 30px;">SEÑALES DE OBLIGACIÓN</h3>
+                <div class="safety-grid">
+                    <div class="safety-card obligation">
+                        <i class="fas fa-glasses fa-3x" style="color:#0984e3;"></i>
+                        <p><strong>Gafas de Seguridad</strong></p>
+                        <span style="font-size: 0.8rem;">Uso obligatorio en desprendimiento de soportes.</span>
+                    </div>
+                    <div class="safety-card obligation">
+                        <i class="fas fa-trash-alt fa-3x" style="color:#0984e3;"></i>
+                        <p><strong>Uso de Papeleras</strong></p>
+                        <span style="font-size: 0.8rem;">Residuos de PLA y soportes en su lugar.</span>
+                    </div>
+                </div>
+
+                <div class="nav-buttons">
+                    <button class="btn-nav btn-next" onclick="nextSection(4)">RECOMENDACIONES DE USO <i class="fas fa-chevron-right"></i></button>
+                </div>
+            </section>
+
+            <section id="sec-5" class="activity-section">
+                <div class="section-header" style="text-align: center; margin-bottom: 30px;">
+                    <h2 style="color: var(--sena-blue); font-size: 2rem; font-family: 'Montserrat';">
+                        <i class="fas fa-handshake" style="color: var(--sena-green);"></i> Tu Compromiso en el Ambiente
+                    </h2>
+                    <p style="color: var(--text-gray); font-weight: 500;">Un gran poder (maker) conlleva una gran responsabilidad.</p>
+                </div>
+
+                <div style="background: #fff; padding: 20px; border-radius: 15px; border-left: 6px solid var(--sena-orange); margin-bottom: 30px; box-shadow: var(--shadow);">
+                    <p style="font-size: 1rem; color: var(--sena-blue);">
+                        El laboratorio de la <strong>TecnoAcademia</strong> no es un salón de clases común; es un centro de innovación de alto nivel. Para que tú y tus compañeros puedan crear sin límites, debemos seguir estas reglas de oro:
+                    </p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+                    
+                    <div style="background: white; border-radius: 15px; padding: 20px; border: 1px solid #e2e8f0; transition: 0.3s; position: relative; overflow: hidden;" onmouseover="this.style.borderColor='var(--sena-blue)'; this.style.transform='translateY(-5px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateY(0)'">
+                        <div style="display: flex; align-items: flex-start; gap: 15px;">
+                            <div style="background: #eff6ff; min-width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #3b82f6;">
+                                <i class="fas fa-laptop-code fa-lg"></i>
+                            </div>
+                            <div>
+                                <h4 style="color: var(--sena-blue); margin-bottom: 8px;">1. Ética con la Tecnología</h4>
+                                <p style="font-size: 0.85rem; color: var(--text-gray); line-height: 1.5;">
+                                    Los equipos de cómputo y software son para <strong>diseño y programación</strong>. Trata el hardware con suavidad y evita instalar software no autorizado que ponga en riesgo la red.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: white; border-radius: 15px; padding: 20px; border: 1px solid #e2e8f0; transition: 0.3s;" onmouseover="this.style.borderColor='var(--sena-blue)'; this.style.transform='translateY(-5px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateY(0)'">
+                        <div style="display: flex; align-items: flex-start; gap: 15px;">
+                            <div style="background: #f0fdf4; min-width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--sena-green);">
+                                <i class="fas fa-chair fa-lg"></i>
+                            </div>
+                            <div>
+                                <h4 style="color: var(--sena-blue); margin-bottom: 8px;">2. Postura de Ingeniero/a</h4>
+                                <p style="font-size: 0.85rem; color: var(--text-gray); line-height: 1.5;">
+                                    Ajusta tu silla para que tus pies toquen el suelo y tu espalda esté recta. Una <strong>mala postura</strong> hoy es un dolor mañana. ¡Cuida tu herramienta de trabajo más importante: tu cuerpo!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: white; border-radius: 15px; padding: 20px; border: 1px solid #e2e8f0; transition: 0.3s;" onmouseover="this.style.borderColor='var(--sena-blue)'; this.style.transform='translateY(-5px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateY(0)'">
+                        <div style="display: flex; align-items: flex-start; gap: 15px;">
+                            <div style="background: #fff7ed; min-width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--sena-orange);">
+                                <i class="fas fa-walking fa-lg"></i>
+                            </div>
+                            <div>
+                                <h4 style="color: var(--sena-blue); margin-bottom: 8px;">3. Desplazamiento Seguro</h4>
+                                <p style="font-size: 0.85rem; color: var(--text-gray); line-height: 1.5;">
+                                    <strong>Caminar siempre</strong> es la regla. Entre cables de impresoras, filamentos y prototipos en movimiento, correr puede causar accidentes costosos o peligrosos.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: white; border-radius: 15px; padding: 20px; border: 1px solid #e2e8f0; transition: 0.3s;" onmouseover="this.style.borderColor='var(--sena-blue)'; this.style.transform='translateY(-5px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateY(0)'">
+                        <div style="display: flex; align-items: flex-start; gap: 15px;">
+                            <div style="background: #fdf2f8; min-width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #db2777;">
+                                <i class="fas fa-eye fa-lg"></i>
+                            </div>
+                            <div>
+                                <h4 style="color: var(--sena-blue); margin-bottom: 8px;">4. Pausas del Explorador</h4>
+                                <p style="font-size: 0.85rem; color: var(--text-gray); line-height: 1.5;">
+                                    Aplica la regla 20-20-20: cada <strong>20 minutos</strong>, mira algo a 20 pies (6 metros) durante 20 segundos. Esto evita la fatiga visual al diseñar en 3D.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px; padding: 25px; background: var(--sena-blue); border-radius: 20px; display: flex; align-items: center; gap: 20px; color: white; position: relative; overflow: hidden;">
+                    <i class="fas fa-broom" style="position: absolute; right: 10px; opacity: 0.1; font-size: 80px;"></i>
+                    <div style="background: rgba(255,255,255,0.1); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-leaf fa-2x" style="color: var(--sena-green);"></i>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--sena-green);">5. El Orden es Innovación</h4>
+                        <p style="font-size: 0.9rem; margin-top: 5px;">
+                            Al terminar, tu estación de trabajo debe quedar igual o mejor de como la encontraste. Organiza cables, guarda componentes y limpia residuos de PLA. Un ambiente limpio inspira nuevas ideas.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="nav-buttons">
+                    <button class="btn-nav btn-next" onclick="nextSection(5)" style="background: var(--sena-orange); color: white; padding: 15px 40px; border-radius: 30px; font-weight: bold; border: none; cursor: pointer; transition: 0.3s;">
+                        ¡ENTENDIDO, VAMOS AL RETO FINAL! <i class="fas fa-rocket" style="margin-left: 10px;"></i>
+                    </button>
+                </div>
+            </section>
+
+            <section id="sec-6" class="activity-section">
+                <div class="section-header" style="text-align: center; margin-bottom: 30px;">
+                    <h2 style="color: var(--sena-blue); font-size: 2.2rem; font-family: 'Montserrat';">
+                        <i class="fas fa-rocket" style="color: var(--sena-orange);"></i> Reto: VideoTech Prototipo Funcional
+                    </h2>
+                    <p style="color: var(--text-gray); font-weight: 500;">¡Es momento de mostrarle al mundo tu innovación!</p>
+                </div>
+                
+                <div style="text-align: center; margin-bottom: 35px; position: relative;">
+                    <img src="imagenes/Personajes/TecnoBot/Anexo_TecnoAcademia.png" style="max-width: 100%; border-radius: 20px; box-shadow: var(--shadow); border: 1px solid #eee;" alt="Reto">
+                    <div style="position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); background: var(--sena-green); color: white; padding: 8px 25px; border-radius: 30px; font-weight: bold; font-size: 0.9rem;">
+                        MISIÓN: COMUNICACIÓN EFECTIVA
+                    </div>
+                </div>
+
+                <div style="background: #f8fafc; padding: 25px; border-radius: 15px; border-left: 6px solid var(--sena-blue); margin-bottom: 30px;">
+                    <h3 style="color: var(--sena-blue); margin-bottom: 15px;"><i class="fas fa-bullseye"></i> El Desafío</h3>
+                    <p style="line-height: 1.6; color: var(--text-gray);">
+                        Tu misión es producir un recurso audiovisual de alta calidad que documente el nacimiento, desarrollo y validación de tu prototipo <strong>VideoTech</strong>. No es solo un video, es el testimonio de tu capacidad para resolver problemas reales usando tecnología.
+                    </p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 40px;">
+                    <div style="background: white; padding: 20px; border-radius: 15px; border: 1px solid #e2e8f0; text-align: center;">
+                        <i class="fas fa-clock fa-2x" style="color: var(--sena-orange); margin-bottom: 15px;"></i>
+                        <h4 style="color: var(--sena-blue);">Formato y Tiempo</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-gray); margin-top: 10px;">
+                            Duración de <strong>3 a 7 minutos</strong>. Grabación obligatoria en <strong>horizontal</strong> (16:9) para garantizar un aspecto profesional.
+                        </p>
+                    </div>
+                    <div style="background: white; padding: 20px; border-radius: 15px; border: 1px solid #e2e8f0; text-align: center;">
+                        <i class="fas fa-layer-group fa-2x" style="color: var(--sena-green); margin-bottom: 15px;"></i>
+                        <h4 style="color: var(--sena-blue);">Estructura Obligatoria</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-gray); margin-top: 10px;">
+                            Debe incluir: <strong>Bocetación</strong> (el inicio), <strong>Fabricación</strong> (el proceso) y <strong>Prueba Final</strong> (el prototipo en acción).
+                        </p>
+                    </div>
+                    <div style="background: white; padding: 20px; border-radius: 15px; border: 1px solid #e2e8f0; text-align: center;">
+                        <i class="fas fa-magic fa-2x" style="color: #6366f1; margin-bottom: 15px;"></i>
+                        <h4 style="color: var(--sena-blue);">Calidad Maker</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-gray); margin-top: 10px;">
+                            Usa transiciones dinámicas y <strong>música libre de derechos</strong>. ¡Asegúrate de que tu voz se escuche clara!
+                        </p>
+                    </div>
+                </div>
+
+                <div class="case-container" style="background: #eff6ff; border-color: #3b82f6;">
+                    <h3 style="color: #1e40af; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-clipboard-check"></i> Checklist para el Éxito:
+                    </h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                        <div style="display: flex; align-items: center; gap: 10px; font-size: 0.9rem;">
+                            <i class="fas fa-check-square" style="color: #3b82f6;"></i> Presentación de integrantes.
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; font-size: 0.9rem;">
+                            <i class="fas fa-check-square" style="color: #3b82f6;"></i> Explicación del problema social.
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; font-size: 0.9rem;">
+                            <i class="fas fa-check-square" style="color: #3b82f6;"></i> Demostración de electrónica y 3D.
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; font-size: 0.9rem;">
+                            <i class="fas fa-check-square" style="color: #3b82f6;"></i> Resultados de la validación real.
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: var(--sena-blue); color: white; padding: 25px; border-radius: 15px; text-align: center; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center;">
+                    <i class="fas fa-file-pdf" style="position: absolute; right: -10px; bottom: -10px; font-size: 100px; opacity: 0.1;"></i>
+                    <p style="margin-bottom: 15px; font-size: 1rem; position: relative; width: 100%;">Antes de empezar, asegúrate de tener tu hoja de ruta técnica:</p>
+                    
+                    <div style="width: 100%; display: flex; justify-content: center;">
+                        <a href="documentos/Anexos/Anexo_G3_Taller 7_VideoTech Prototipo.pdf" class="btn-pdf" target="_blank" style="margin: 0; position: relative; display: inline-flex;">
+                            <i class="fas fa-download"></i> DESCARGAR GUÍA TALLER 7
+                        </a>
+                    </div>
+                </div>
+
+		
+
+                <div class="nav-buttons">
+                    <button class="btn-nav btn-next" onclick="nextSection(6)" style="background: var(--sena-blue); color: white; padding: 12px 35px; border-radius: 8px;">
+                        FINALIZAR Y EVALUAR <i class="fas fa-chevron-right" style="margin-left: 10px;"></i>
+                    </button>
+                </div>
+            </section>
+
+            <section id="sec-7" class="activity-section">
+                <div class="section-header" style="text-align: center; margin-bottom: 35px;">
+                    <h2 style="color: var(--sena-blue); font-size: 2.2rem; font-family: 'Montserrat';">
+                        <i class="fas fa-microscope" style="color: var(--sena-green);"></i> Desafío de Retroalimentación
+                    </h2>
+                    <div style="width: 60px; height: 4px; background: var(--sena-orange); margin: 10px auto; border-radius: 2px;"></div>
+                    <p style="color: var(--text-gray); font-weight: 500;">Validación de Criterios Técnicos y Comunicación</p>
+                </div>
+
+                <div style="background: linear-gradient(135deg, #00324D 0%, #00507d 100%); color: white; padding: 30px; border-radius: 20px; margin-bottom: 30px; position: relative; overflow: hidden; box-shadow: var(--shadow);">
+                    <i class="fas fa-lightbulb" style="position: absolute; right: -20px; top: -20px; font-size: 120px; opacity: 0.1;"></i>
+                    <div style="position: relative; z-index: 1;">
+                        <h4 style="color: var(--sena-orange); font-family: 'Montserrat'; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;">
+                            Instrucciones del Analista
+                        </h4>
+                        <p style="font-size: 1rem; line-height: 1.6; opacity: 0.9;">
+                            Para obtener tu insignia, debes analizar el siguiente escenario real de laboratorio. Un error en la <strong>transferencia de conocimiento</strong> puede invalidar semanas de trabajo técnico. Tu objetivo es identificar los fallos y proponer la solución correcta.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="case-container" id="quiz-box" style="border: 2px solid #e2e8f0; background: white; transition: all 0.4s ease;">
+                    <div id="case-intro">
+                        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
+                            <div style="background: #fee2e2; padding: 12px; border-radius: 12px;">
+                                <i class="fas fa-exclamation-triangle fa-2x" style="color: #ef4444;"></i>
+                            </div>
+                            <h3 style="color: #1e293b; margin: 0;">Caso de Estudio: "El Lanzamiento Fallido"</h3>
+                        </div>
+                        
+                        <p style="font-size: 1rem; line-height: 1.7; color: #475569; background: #f8fafc; padding: 20px; border-radius: 12px; font-style: italic;">
+                            "Un equipo de talentosos estudiantes en Manizales finalizó un prototipo de puente hidráulico automatizado. Sin embargo, al momento de editar su VideoTech, descubrieron que solo tenían tomas del resultado final funcionando. Omitieron grabar el proceso de ensamble electrónico y las fallas iniciales. Para empeorar las cosas, el video fue grabado totalmente en formato vertical y el audio es casi imperceptible por el ruido del taller. El mentor ha rechazado el producto por no cumplir con los estándares técnicos."
+                        </p>
+
+                        <div style="margin-top: 25px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                            <div style="padding: 10px; background: #fff1f2; border-radius: 8px; color: #991b1b; font-size: 0.85rem; display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-times-circle"></i> Error de Formato (Vertical)
+                            </div>
+                            <div style="padding: 10px; background: #fff1f2; border-radius: 8px; color: #991b1b; font-size: 0.85rem; display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-times-circle"></i> Vacío de Evidencia Técnica
+                            </div>
+                            <div style="padding: 10px; background: #fff1f2; border-radius: 8px; color: #991b1b; font-size: 0.85rem; display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-times-circle"></i> Audio No Profesional
+                            </div>
+                        </div>
+
+                        <button class="btn-nav btn-next" style="margin-top: 30px; width: 100%; padding: 18px; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px;" onclick="startQuiz()">
+                            <i class="fas fa-clipboard-check"></i> COMENZAR EVALUACIÓN DE CRITERIOS
+                        </button>
+                    </div>
+
+                    <div id="quiz-questions" style="display: none; padding: 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <h4 id="q-title" style="color: var(--sena-blue); margin: 0;">Pregunta 1 de 5</h4>
+                            <div id="timer" style="color: var(--sena-orange); font-weight: bold;"><i class="fas fa-clock"></i> Análisis en curso</div>
+                        </div>
+                        <p id="q-text" style="font-size: 1.2rem; color: #1e293b; margin: 20px 0; line-height: 1.4;"></p>
+                        <div id="options-container" style="display: grid; gap: 12px;"></div>
+                    </div>
+                </div>
+
+                <div id="final-msg-area" style="display:none; text-align:center; animation: fadeIn 0.8s ease;">
+                    <div style="background: #f0fdf4; padding: 40px; border-radius: 20px; border: 2px solid var(--sena-green);">
+                        <div style="background: var(--sena-green); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: white;">
+                            <i class="fas fa-check fa-3x"></i>
+                        </div>
+                        <h3 style="color: #166534; font-family: 'Montserrat'; font-size: 1.8rem; margin-bottom: 10px;">¡Excelente Análisis, Ingeniero/a!</h3>
+                        <p style="color: #166534; font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
+                            Has demostrado un dominio total sobre los criterios de <strong>Transferencia Tecnológica</strong>. Entiendes que la comunicación es tan importante como la invención misma.
+                        </p>
+                        <p style="margin-top: 20px; font-weight: bold; color: var(--sena-blue);">¡Ya puedes reclamar tu insignia de cierre!</p>
+			<br>
+			<button class="btn-nav" style="background: var(--sena-green); color: white; width: 30%;" onclick="triggerInsignia()">
+                		<i class="fas fa-medal"></i> RECLAMAR INSIGNIA
+            		</button>
+        	       </div>
+                   </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <div id="insignia-overlay">
+        <img src="imagenes/Insignias/Insignias Mohs/04 - Insignias MOHS-Rubí.png" class="insignia-img" alt="Insignia Rubí">
+        <h1 style="color: white; font-family: 'Montserrat'; margin-bottom: 10px;">¡FELICITACIONES!</h1>
+        <p style="color: #bdc3c7; margin-bottom: 30px;">Has ganado la Insignia de Rubí: Experto en Transferencia</p>
+	<button class="btn-nav" style="background: var(--sena-green); color: white; width: 20%;" onclick="finishModule()">
+                		<i class="fas fa-medal"></i> VOLVER AL INDEX
+            		</button>
+
+
+    </div>
+
+    <script>
+        const storageKey = 'makerCourseState';
+        const currentModuleNum = 6;
+        const totalSections = 7;
+        let progress = new Array(totalSections).fill(false);
+
+        // Sidebar Init
+        const pins = ['Pin_S.png', 'Pin_T.png', 'Pin_E.png', 'Pin_A.png', 'Pin_M.png'];
+        const sectionTitles = [
+            "Bienvenida", 
+            "Introducción", 
+            "Taller 7: VideoTech", 
+            "Bioseguridad", 
+            "Uso del Ambiente", 
+            "Reto Principal", 
+            "Evaluación Final"
+        ];
+
+        function initSidebar() {
+            const menu = document.getElementById('sidebar-menu');
+            sectionTitles.forEach((title, index) => {
+                const pin = pins[index % pins.length];
+                const item = document.createElement('div');
+                item.className = `menu-item ${index === 0 ? 'active' : ''}`;
+                item.id = `menu-${index + 1}`;
+                item.onclick = () => showSection(index + 1);
+                item.innerHTML = `
+                    <img src="imagenes/Insignias/Pin STEAM+/${pin}" alt="pin">
+                    <span>${index + 1}. ${title}</span>
+                `;
+                menu.appendChild(item);
+            });
+        }
+
+        function showSection(id) {
+            document.querySelectorAll('.activity-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+            
+            document.getElementById(`sec-${id}`).classList.add('active');
+            document.getElementById(`menu-${id}`).classList.add('active');
+            
+            markComplete(id);
+        }
+
+        function markComplete(id) {
+            if (!progress[id-1]) {
+                progress[id-1] = true;
+                document.getElementById(`menu-${id}`).classList.add('completed');
+                updateProgressBar();
+            }
+        }
+
+        function updateProgressBar() {
+            const completedCount = progress.filter(Boolean).length;
+            const percentage = Math.round((completedCount / totalSections) * 100);
+            document.getElementById('progress-bar-fill').style.width = percentage + '%';
+            document.getElementById('progress-text').innerText = percentage + '%';
+            
+            if (completedCount === totalSections) {
+                document.getElementById('menu-final').style.display = 'block';
+            }
+        }
+
+        function nextSection(current) {
+            showSection(current + 1);
+        }
+
+        // QUIZ LOGIC
+        const questions = [
+            {
+                q: "¿Cuál fue el error principal en el formato del video del caso?",
+                options: ["Faltó música", "Se grabó en vertical", "Dura 10 minutos"],
+                correct: 1
+            },
+            {
+                q: "¿Qué etapas deben aparecer obligatoriamente en el video?",
+                options: ["Solo el final", "Boceto, fabricación y validación", "Solo los créditos"],
+                correct: 1
+            },
+            {
+                q: "Si un extrusor está caliente, ¿qué tipo de riesgo es?",
+                options: ["Riesgo eléctrico", "Prohibición", "Riesgo de alta temperatura"],
+                correct: 2
+            },
+            {
+                q: "¿Cuál es el formato de archivo sugerido para la entrega?",
+                options: ["PDF", "MP4", "JPG"],
+                correct: 1
+            },
+            {
+                q: "¿Qué debemos hacer después de usar el ambiente de formación?",
+                options: ["Dejar todo como está", "Organizar y disponer residuos adecuadamente", "Salir rápido"],
+                correct: 1
+            }
+        ];
+
+        let currentQ = 0;
+
+        function startQuiz() {
+            document.getElementById('case-intro').style.display = 'none';
+            document.getElementById('quiz-questions').style.display = 'block';
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const q = questions[currentQ];
+            document.getElementById('q-title').innerText = `Pregunta ${currentQ + 1} de 5`;
+            document.getElementById('q-text').innerText = q.q;
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            
+            q.options.forEach((opt, i) => {
+                const div = document.createElement('div');
+                div.className = 'quiz-option';
+                div.innerText = opt;
+                div.onclick = () => checkAnswer(i);
+                container.appendChild(div);
+            });
+        }
+
+        function checkAnswer(idx) {
+            const q = questions[currentQ];
+            const options = document.querySelectorAll('.quiz-option');
+            
+            if(idx === q.correct) {
+                options[idx].classList.add('correct');
+                setTimeout(() => {
+                    currentQ++;
+                    if(currentQ < questions.length) loadQuestion();
+                    else showQuizEnd();
+                }, 1000);
+            } else {
+                options[idx].classList.add('wrong');
+                alert("Analiza mejor la situación e intenta de nuevo.");
+            }
+        }
+
+        function showQuizEnd() {
+            document.getElementById('quiz-questions').style.display = 'none';
+            document.getElementById('final-msg-area').style.display = 'block';
+            markComplete(7);
+        }
+
+        // FINALIZACIÓN
+        function triggerInsignia() {
+            document.getElementById('insignia-overlay').style.display = 'flex';
+        }
+
+        function finishModule() {
+            const nextModule = currentModuleNum + 1;
+            let state = JSON.parse(localStorage.getItem(storageKey)) || { completedModules: [], unlockedModules: [1] };
+            
+            if (!state.completedModules.includes(currentModuleNum)) state.completedModules.push(currentModuleNum);
+            if (!state.unlockedModules.includes(nextModule)) state.unlockedModules.push(nextModule);
+            
+            localStorage.setItem(storageKey, JSON.stringify(state));
+            window.location.href = 'index.html';
+        }
+
+        // Init
+        window.onload = () => {
+            initSidebar();
+            updateProgressBar();
+        };
+    </script>
+</body>
+</html>

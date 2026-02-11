@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo 8: Glosario Técnico - TecnoAcademia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root { 
+            --sena-green: #39A900; 
+            --sena-blue: #00324D; 
+            --sena-orange: #FF6C00; 
+            --bg-body: #F4F6F9; 
+            --bg-card: #FFFFFF; 
+            --text-gray: #59667a; 
+            --shadow: 0 4px 20px rgba(0,0,0,0.05); 
+            --radius: 12px; 
+            --sidebar-width: 320px; 
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Roboto', sans-serif; background-color: var(--bg-body); color: var(--sena-blue); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+        
+        header { background-color: var(--bg-card); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 100; position: sticky; top: 0; }
+        .header-left { display: flex; align-items: center; gap: 20px; }
+
+.module-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--sena-blue);
+    text-transform: uppercase; /* Convierte a mayúsculas */
+    letter-spacing: 1.7px;      /* Espacio entre letras de 1.7 */
+    flex: 1;                    /* Ayuda a centrar o distribuir el espacio */
+    text-align: center;         /* Centra el texto entre los logos */
+}
+
+        .back-btn { text-decoration: none; color: var(--sena-blue); font-weight: bold; display: flex; align-items: center; gap: 10px; transition: color 0.3s; }
+        .back-btn:hover { color: var(--sena-orange); }
+
+        .main-layout { display: flex; flex: 1; max-width: 1400px; margin: 2rem auto; gap: 2rem; width: 100%; padding: 0 20px; align-items: stretch; }
+
+        .sidebar { 
+            width: var(--sidebar-width); 
+            background: var(--bg-card); 
+            border-radius: var(--radius); 
+            box-shadow: var(--shadow); 
+            padding: 1.5rem; 
+            display: flex; 
+            flex-direction: column; 
+            height: calc(100vh - 100px); /* Ajuste para scroll interno */
+            position: sticky;
+            top: 100px;
+        }
+        .sidebar h3 { font-family: 'Montserrat'; color: var(--sena-green); margin-bottom: 1rem; border-bottom: 2px solid #eee; padding-bottom: 10px; font-size: 1.1rem; }
+        
+        .search-container { margin-bottom: 1rem; }
+        .search-box { width: 100%; padding: 10px 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.9rem; outline: none; }
+        .search-box:focus { border-color: var(--sena-green); }
+
+        .menu-list { flex: 1; overflow-y: auto; padding-right: 5px; }
+        /* Scrollbar estilizado */
+        .menu-list::-webkit-scrollbar { width: 6px; }
+        .menu-list::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+
+        .menu-item { 
+            display: flex; align-items: center; gap: 12px; padding: 12px; margin-bottom: 6px; 
+            border-radius: 8px; cursor: pointer; transition: all 0.3s; color: var(--text-gray); 
+            font-weight: 500; border: 1px solid transparent; font-size: 0.9rem;
+        }
+        .menu-item i { width: 25px; text-align: center; color: var(--sena-blue); }
+        .menu-item:hover { background: #f0fdf4; color: var(--sena-green); }
+        .menu-item:hover i { color: var(--sena-green); }
+        .menu-item.active { background: var(--sena-green); color: white; box-shadow: 0 4px 10px rgba(57, 169, 0, 0.3); border-color: var(--sena-green); }
+        .menu-item.active i { color: white; }
+
+        .content-area { flex: 1; background: var(--bg-card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 2.5rem; display: flex; flex-direction: column; min-height: 600px; }
+        
+        #definition-display { animation: fadeIn 0.4s ease-out; width: 100%; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .term-title { font-family: 'Montserrat'; color: var(--sena-blue); font-size: 2.2rem; margin-bottom: 1rem; border-bottom: 3px solid var(--sena-orange); display: inline-block; padding-bottom: 5px; }
+        
+        .def-layout { display: grid; grid-template-columns: 1fr 300px; gap: 30px; align-items: start; }
+        .def-text-side p { font-size: 1.1rem; color: #444; margin-bottom: 15px; line-height: 1.7; text-align: justify;}
+
+        /* ESTILOS DE TARJETAS */
+        .cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .info-card { padding: 15px; border-radius: 8px; font-size: 0.9rem; border-left: 5px solid; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .info-card h4 { margin-bottom: 5px; display: flex; align-items: center; gap: 8px; font-size: 1rem; font-weight: 700; }
+        
+        .card-tip { background: #fff8e1; border-color: #ffc107; color: #856404; }
+        .card-challenge { background: #e3f2fd; border-color: #2196f3; color: #0d47a1; }
+        .card-tech { background: #e8f5e9; border-color: #4caf50; color: #1b5e20; }
+        .card-real { background: #f3e5f5; border-color: #9c27b0; color: #4a148c; }
+
+        .def-image-side img { width: 100%; height: 250px; object-fit: cover; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); border: 5px solid white; margin-bottom: 15px; }
+        .image-caption { font-size: 0.8rem; color: #777; font-style: italic; text-align: center; }
+
+        .sidebar-footer { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee; }
+        .progress-bar-bg { background: #eee; height: 8px; border-radius: 10px; margin: 15px 0; }
+        .progress-bar-fill { background: var(--sena-orange); height: 100%; width: 0%; border-radius: 10px; transition: 0.5s; }
+        
+        .finish-btn { width: 100%; padding: 12px; background: #ccc; color: white; border: none; border-radius: 8px; cursor: not-allowed; font-weight: bold; transition: 0.3s; }
+        .finish-btn.ready { background: var(--sena-green); cursor: pointer; box-shadow: 0 4px 15px rgba(57, 169, 0, 0.4); }
+        .finish-btn.ready:hover { transform: translateY(-2px); }
+
+        /* Estado inicial vacío */
+        .empty-state { text-align: center; color: #999; margin-top: 50px; }
+        .empty-state i { font-size: 4rem; margin-bottom: 20px; color: #ddd; }
+
+        @media (max-width: 992px) { 
+            .main-layout { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; position: static; }
+            .def-layout { grid-template-columns: 1fr; } 
+            .cards-grid { grid-template-columns: 1fr; } 
+        }
+
+/* Animación de pulso para el trofeo */
+@keyframes trophyBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+#congrats-content i {
+    animation: trophyBounce 2s infinite ease-in-out;
+}
+    </style>
+</head>
+<body>
+
+    <header>
+    <div class="header-left">
+        <img src="imagenes/Logos/sena.png" alt="SENA Logo" style="height: 50px;">
+        <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Volver al Centro de Comando</a>
+    </div>
+
+    <div class="module-title">Módulo 8: Glosario</div>
+
+    <img src="imagenes/Logos/tecnoacademia.jpeg" alt="TecnoAcademia Logo" style="height: 50px;">
+</header>
+
+    <div class="main-layout">
+        <aside class="sidebar">
+            <h3><i class="fas fa-book-open"></i> Glosario de Ingeniería</h3>
+            <div class="search-container">
+                <input type="text" class="search-box" placeholder="Buscar término..." onkeyup="filterMenu(this.value)">
+            </div>
+            <div class="menu-list" id="menu-list">
+                </div>
+            <div class="sidebar-footer">
+                <small>Progreso de Lectura: <span id="count">0</span>/43</small>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
+                <button id="btn-finish" class="finish-btn" onclick="finishModule()">Finalizar Glosario</button>
+            </div>
+        </aside>
+
+        <main class="content-area">
+            <div id="definition-display">
+                <div class="empty-state">
+                    <i class="fas fa-mouse-pointer"></i>
+                    <h2>Selecciona un término</h2>
+                    <p>Haz clic en el menú de la izquierda para ver las definiciones técnicas y ejemplos.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+<div id="congrats-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; display: none; flex-direction: column; opacity: 0; transition: opacity 0.5s ease;">
+    <div style="background: white; padding: 3rem; border-radius: 20px; text-align: center; max-width: 500px; transform: scale(0.7); transition: transform 0.5s ease;" id="congrats-content">
+        <i class="fas fa-trophy" style="font-size: 5rem; color: #FFD700; margin-bottom: 1rem;"></i>
+        <h1 style="font-family: 'Montserrat'; color: var(--sena-blue); margin-bottom: 1rem;">¡Excelente Trabajo!</h1>
+        <p style="font-size: 1.2rem; color: var(--text-gray); margin-bottom: 2rem;">Has completado el Glosario Técnico de Ingeniería con éxito.</p>
+        <button onclick="window.location.href='index.html'" style="padding: 15px 30px; background: var(--sena-green); color: white; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(57,169,0,0.3);">
+            <i class="fas fa-home"></i> Continuar al Inicio
+        </button>
+    </div>
+</div>
+
+    <script>
+        // DATOS DEL GLOSARIO ACTUALIZADOS (Nuevos Términos)
+        const glossaryData = [
+            // --- INGENIERÍA Y ENSAMBLAJE ---
+            { 
+                term: "Alineación", 
+                icon: "fa-arrows-alt",
+                def: "Ajuste preciso de componentes para asegurar el funcionamiento correcto del ensamblaje. Una mala alineación puede causar vibraciones, desgaste prematuro o fallas críticas en sistemas mecánicos.", 
+                img: "https://images.unsplash.com/photo-1537462715879-360eeb61a0ad?auto=format&fit=crop&w=600&q=80",
+                caption: "Técnico verificando la alineación de ejes mecánicos.",
+                tip: "Usa niveles láser o indicadores de dial para máxima precisión.",
+                challenge: "¿Qué pasaría si las ruedas de un prototipo no están alineadas?",
+                tech: "La tolerancia de alineación suele medirse en micras en ingeniería de alta precisión.",
+                real: "En los vehículos, una mala alineación desgasta las llantas en pocos meses."
+            },
+            { 
+                term: "Ajuste", 
+                icon: "fa-tools",
+                def: "Proceso de ensamblar piezas con las tolerancias necesarias para asegurar un funcionamiento adecuado. Define si una pieza entrará libremente o a presión dentro de otra.", 
+                img: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=600&q=80",
+                caption: "Ensamblaje de piezas mecánicas con ajuste de precisión.",
+                tip: "Existen tres tipos básicos: holgado, de transición e interferencia.",
+                challenge: "Diseña una pieza que encaje perfectamente en otra sin usar pegamento.",
+                tech: "Se basa en normas internacionales como la ISO 286.",
+                real: "Los motores de avión requieren ajustes térmicos para que las piezas encajen al calentarse."
+            },
+            { 
+                term: "Componentes", 
+                icon: "fa-puzzle-piece",
+                def: "Partes individuales que se ensamblan para formar un prototipo funcional. Cada componente debe ser diseñado considerando su interacción con los demás.", 
+                img: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80",
+                caption: "Desglose de componentes electrónicos y mecánicos.",
+                tip: "Mantén un inventario o BOM (Bill of Materials) detallado de cada pieza.",
+                challenge: "Haz una lista de 10 componentes que tiene una bicicleta.",
+                tech: "La modularidad permite reemplazar componentes dañados sin desechar todo el sistema.",
+                real: "Un smartphone moderno tiene más de 1,000 componentes diminutos."
+            },
+            { 
+                term: "Dimensiones Críticas", 
+                icon: "fa-ruler-combined",
+                def: "Medidas esenciales para el correcto funcionamiento del prototipo y que deben controlarse con precisión. Si estas dimensiones fallan, el prototipo no servirá para su propósito.", 
+                img: "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=600&q=80",
+                caption: "Medición de precisión con pie de rey.",
+                tip: "Marca estas dimensiones en tus planos con un símbolo especial para no olvidarlas.",
+                challenge: "Identifica la dimensión crítica de una llave para que abra una cerradura.",
+                tech: "Se utilizan herramientas como micrómetros y máquinas de medición por coordenadas (CMM).",
+                real: "En la NASA, una dimensión crítica errónea puede causar la pérdida de un satélite."
+            },
+            { 
+                term: "Polipasto", 
+                icon: "fa-anchor",
+                def: "Elemento mecánico utilizado para levantar cargas pesadas de forma vertical u horizontal. También llamado como un sistema de poleas, utiliza la ventaja mecánica para reducir el esfuerzo necesario.", 
+                img: "https://images.unsplash.com/photo-1581094288338-2314dddb7bc3?auto=format&fit=crop&w=600&q=80",
+                caption: "Sistema de polipasto industrial para levantamiento de cargas.",
+                tip: "A más poleas en el sistema, menor es la fuerza que debes aplicar.",
+                challenge: "¿Cuántas poleas necesitarías para levantar 100kg con solo 25kg de fuerza?",
+                tech: "La ventaja mecánica se calcula dividiendo el número de segmentos de cuerda que sostienen la carga.",
+                real: "Los ascensores modernos utilizan sistemas avanzados de polipastos eléctricos."
+            },
+
+            // --- PRUEBAS Y VALIDACIÓN ---
+            { 
+                term: "Banco de Pruebas", 
+                icon: "fa-vial",
+                def: "Equipo utilizado para probar el funcionamiento y rendimiento de un prototipo en condiciones controladas. Permite aislar variables y medir datos específicos sin riesgos externos.", 
+                img: "https://images.unsplash.com/photo-1581093806997-124204d9fa9d?auto=format&fit=crop&w=600&q=80",
+                caption: "Laboratorio con banco de pruebas para motores.",
+                tip: "Asegúrate de que tu banco de pruebas sea más resistente que el objeto que vas a probar.",
+                challenge: "Imagina un banco de pruebas para evaluar la resistencia de una silla.",
+                tech: "Los bancos de pruebas modernos integran sensores IoT para recolectar datos en tiempo real.",
+                real: "Fórmula 1 usa bancos de pruebas (dinamómetros) para probar motores antes de ir a la pista."
+            },
+            { 
+                term: "Análisis de Movimiento", 
+                icon: "fa-running",
+                def: "Evaluación del comportamiento dinámico de un prototipo para estudiar su movimiento y cinemática. Ayuda a predecir colisiones internas o rangos de movimiento insuficientes.", 
+                img: "https://images.unsplash.com/photo-1551288049-bbbda540d3ad?auto=format&fit=crop&w=600&q=80",
+                caption: "Simulación digital de cinemática de un brazo robótico.",
+                tip: "Usa cámaras de alta velocidad si el movimiento es muy rápido para el ojo humano.",
+                challenge: "Graba un péndulo en cámara lenta y analiza su trayectoria.",
+                tech: "Se utilizan softwares como SolidWorks Motion o Adams para estas simulaciones.",
+                real: "Los animadores de Pixar analizan el movimiento real para que sus personajes se vean naturales."
+            },
+            { 
+                term: "Validación", 
+                icon: "fa-check-double",
+                def: "Proceso de confirmar que el prototipo cumple con los requisitos y expectativas del diseño. Es la prueba final donde se decide si el producto está listo para el usuario.", 
+                img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80",
+                caption: "Ingeniero validando el cumplimiento de especificaciones técnicas.",
+                tip: "La validación responde a la pregunta: ¿Construimos el producto correcto?",
+                challenge: "¿Cómo validarías que un termo realmente mantiene el agua caliente por 12 horas?",
+                tech: "Incluye protocolos IQ (Instalación), OQ (Operación) y PQ (Desempeño).",
+                real: "Las vacunas pasan por años de validación antes de ser aprobadas para humanos."
+            },
+
+            // --- CONTENIDO AUDIOVISUAL Y DOCUMENTACIÓN ---
+            { 
+                term: "Audiovisual", 
+                icon: "fa-video",
+                def: "Material que utiliza tanto elementos de audio como visuales para transmitir información. Es la forma más efectiva de documentar el funcionamiento de un prototipo.", 
+                img: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=600&q=80",
+                caption: "Producción de contenido visual profesional.",
+                tip: "El audio es el 50% de la experiencia; usa un buen micrófono.",
+                challenge: "Graba un video de 15 segundos explicando cómo funciona un clip.",
+                tech: "Formatos comunes incluyen MP4, MOV y AVI.",
+                real: "YouTube es la plataforma audiovisual más grande del mundo para tutoriales técnicos."
+            },
+            { 
+                term: "Storyboard", 
+                icon: "fa-th-large",
+                def: "Serie de ilustraciones que representan las escenas del video y la secuencia de los eventos, utilizada para planificar la producción y evitar regrabaciones innecesarias.", 
+                img: "https://images.unsplash.com/photo-1620336655055-088d06e36bf0?auto=format&fit=crop&w=600&q=80",
+                caption: "Bocetos de planificación para un video demostrativo.",
+                tip: "No necesitas ser un gran artista; lo importante es que se entienda la acción.",
+                challenge: "Dibuja 3 cuadros que representen el inicio, nudo y desenlace de una prueba de caída.",
+                tech: "Ayuda a definir el encuadre, la iluminación y los movimientos de cámara previos.",
+                real: "Películas como Avengers se dibujan completamente en storyboards antes de filmar."
+            },
+{ 
+                term: "Desgaste", 
+                icon: "fa-eraser",
+                def: "Deterioro físico de los componentes del prototipo debido al uso continuo, la fricción entre partes móviles o la erosión ambiental. Es un factor crítico a calcular para determinar la vida útil de la máquina.", 
+                img: "https://images.unsplash.com/photo-1594818379496-da1e345b0ded?auto=format&fit=crop&w=600&q=80",
+                caption: "Engranaje mostrando signos de fatiga y desgaste.",
+                tip: "Usa lubricación adecuada para reducir el desgaste en un 90%.",
+                challenge: "Busca en tu casa un objeto mecánico que muestre desgaste visible.",
+                tech: "La tribología es la ciencia que estudia el desgaste, fricción y lubricación.",
+                real: "Los frenos de los autos se diseñan para desgastarse intencionalmente y proteger el disco."
+            },
+            { 
+                term: "Integridad Estructural", 
+                icon: "fa-building",
+                def: "Capacidad del prototipo para mantener su forma, resistencia y estabilidad bajo cargas y condiciones operativas extremas sin colapsar ni deformarse permanentemente.", 
+                img: "https://images.unsplash.com/photo-1545558014-8692077e9b5c?auto=format&fit=crop&w=600&q=80",
+                caption: "Estructura metálica diseñada para soportar grandes cargas.",
+                tip: "Los triángulos son la forma geométrica más estable para mantener la integridad.",
+                challenge: "Construye un cubo con palillos que soporte un libro encima.",
+                tech: "El análisis de elementos finitos (FEA) predice fallos estructurales digitalmente.",
+                real: "La Torre Eiffel mantiene su integridad gracias a su diseño de celosía abierta."
+            },
+            { 
+                term: "Interferencia", 
+                icon: "fa-exclamation-triangle",
+                def: "Problema de diseño que ocurre cuando dos o más componentes intentan ocupar el mismo espacio físico al mismo tiempo, impidiendo el ensamblaje o el movimiento adecuado del mecanismo.", 
+                img: "https://images.unsplash.com/photo-1581092583139-6d6f56f4d621?auto=format&fit=crop&w=600&q=80",
+                caption: "Detección de colisiones en modelo CAD 3D.",
+                tip: "Siempre haz una revisión de interferencias en tu software CAD antes de imprimir.",
+                challenge: "Intenta cerrar una puerta poniendo un objeto en las bisagras. Eso es interferencia.",
+                tech: "En ajustes de presión, una 'interferencia' controlada es deseable para fijar piezas.",
+                real: "Si los pistones interfieren con las válvulas, el motor se destruye instantáneamente."
+            },
+            { 
+                term: "Maniobrabilidad", 
+                icon: "fa-gamepad",
+                def: "Facilidad con la que se puede operar, dirigir y controlar el movimiento de un prototipo móvil. Un buen diseño debe responder suave y precisamente a los comandos del operador.", 
+                img: "https://images.unsplash.com/photo-1535295972055-1c762f4483e5?auto=format&fit=crop&w=600&q=80",
+                caption: "Robot móvil omnidireccional en pruebas de movimiento.",
+                tip: "El centro de gravedad bajo mejora enormemente la maniobrabilidad.",
+                challenge: "Diseña un carrito que pueda girar sobre su propio eje (360°).",
+                tech: "Las ruedas Mecanum permiten movimiento en cualquier dirección sin girar el chasis.",
+                real: "Los montacargas tienen dirección trasera para maniobrar en pasillos estrechos."
+            },
+            { 
+                term: "Precisión", 
+                icon: "fa-crosshairs",
+                def: "Grado de exactitud y repetibilidad con el que el prototipo cumple con las dimensiones y especificaciones requeridas. Se diferencia de la exactitud en que la precisión implica obtener el mismo resultado muchas veces.", 
+                img: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80",
+                caption: "Brazo robótico realizando tareas de alta precisión.",
+                tip: "No confundas precisión con exactitud; puedes ser preciso (agrupado) pero inexacto (fuera del blanco).",
+                challenge: "Intenta cortar 5 tiras de papel exactamente del mismo largo.",
+                tech: "La precisión en máquinas CNC se mide en micras (milésimas de milímetro).",
+                real: "Un reloj suizo es el estándar mundial de precisión mecánica."
+            },
+            { 
+                term: "Tolerancia", 
+                icon: "fa-arrows-alt-h",
+                def: "Margen permitido de variación en las dimensiones del prototipo para asegurar su correcto funcionamiento. Como la perfección absoluta es imposible, la ingeniería define rangos (ej: ±0.1mm) donde la pieza sigue siendo útil.", 
+                img: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=600&q=80",
+                caption: "Plano técnico especificando tolerancias dimensionales.",
+                tip: "Diseña con la tolerancia más amplia posible para reducir costos de fabricación.",
+                challenge: "¿Encajaría un eje de 10mm en un agujero de 9.9mm? Depende de la tolerancia.",
+                tech: "Existen tolerancias dimensionales y tolerancias geométricas (GD&T).",
+                real: "Las piezas de LEGO tienen tolerancias de 0.002mm para encajar siempre."
+            },
+            { 
+                term: "Seguridad", 
+                icon: "fa-shield-alt",
+                def: "Garantía de que el prototipo no representa un peligro físico, eléctrico o mecánico para los usuarios o el entorno durante su operación. Incluye carcasas protectoras, paradas de emergencia y materiales no tóxicos.", 
+                img: "https://images.unsplash.com/photo-1615486511484-92e590d2d7d4?auto=format&fit=crop&w=600&q=80",
+                caption: "Botón de parada de emergencia en maquinaria.",
+                tip: "La seguridad es lo primero: si es peligroso, está mal diseñado.",
+                challenge: "Identifica 3 riesgos en un ventilador sin rejilla.",
+                tech: "El diseño 'Fail-Safe' asegura que si algo falla, no cause daño (ej: frenos que se bloquean si se rompe el cable).",
+                real: "Las sierras modernas se detienen en milisegundos si tocan piel humana."
+            },
+
+            // --- FASE DE PRUEBAS Y VALIDACIÓN (Continuación) ---
+            { 
+                term: "Ciclo de Pruebas", 
+                icon: "fa-sync-alt",
+                def: "Serie iterativa de evaluaciones a las que se somete un prototipo. Consiste en probar, detectar fallos, corregir y volver a probar hasta alcanzar el rendimiento deseado.", 
+                img: "https://images.unsplash.com/photo-1581093588401-fbb073d78124?auto=format&fit=crop&w=600&q=80",
+                caption: "Ingenieros realizando ciclos de prueba en laboratorio.",
+                tip: "Documenta cada fallo; es la única forma de no repetirlo en el siguiente ciclo.",
+                challenge: "Haz un ciclo de pruebas con un avión de papel: lánzalo, ajusta un doblez y lánzalo de nuevo.",
+                tech: "En software se conoce como ciclo 'Debug', en hardware es 'Testing'.",
+                real: "IKEA prueba sus sillas sentando un robot en ellas 50,000 veces."
+            },
+            { 
+                term: "Conformidad", 
+                icon: "fa-clipboard-check",
+                def: "Estado en el que el prototipo cumple estrictamente con todas las especificaciones, normas legales y requisitos técnicos definidos al inicio del proyecto.", 
+                img: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=600&q=80",
+                caption: "Lista de chequeo de conformidad y calidad.",
+                tip: "La conformidad no es opcional; si no cumple la norma, no se puede vender.",
+                challenge: "Verifica si tu cargador de celular tiene el sello de conformidad 'CE' o 'UL'.",
+                tech: "La no conformidad puede llevar a demandas legales y retirada de productos.",
+                real: "Los autos deben tener conformidad de emisiones de gases para circular."
+            },
+            { 
+                term: "Diagnóstico", 
+                icon: "fa-stethoscope",
+                def: "Proceso analítico de identificación y estudio de la causa raíz de problemas, fallos o ruidos extraños en un prototipo funcional. Es el 'trabajo de detective' de la ingeniería.", 
+                img: "https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&w=600&q=80",
+                caption: "Ingeniero diagnosticando un fallo en un circuito.",
+                tip: "Usa tus sentidos: ¿Huele a quemado? ¿Suena raro? ¿Vibra mucho?",
+                challenge: "Diagnostica por qué una lámpara no enciende (¿Bombilla? ¿Cable? ¿Enchufe?).",
+                tech: "El análisis de vibraciones es clave para diagnosticar máquinas rotativas.",
+                real: "Los mecánicos usan escáneres para diagnosticar la computadora de tu auto."
+            },
+            { 
+                term: "Ensayo de Vida Útil", 
+                icon: "fa-hourglass-half",
+                def: "Prueba destructiva o no destructiva que evalúa cuánto tiempo o cuántos ciclos puede operar un prototipo antes de fallar irremediablemente. Permite ofrecer garantías al usuario.", 
+                img: "https://images.unsplash.com/photo-1507413245164-6160d8298b31?auto=format&fit=crop&w=600&q=80",
+                caption: "Prueba de resistencia de materiales a largo plazo.",
+                tip: "A veces se usan 'pruebas aceleradas' (más calor, más velocidad) para simular años en días.",
+                challenge: "¿Cuántas veces crees que puedes doblar un clip antes de que se rompa?",
+                tech: "La curva de la bañera describe la probabilidad de fallo durante la vida útil.",
+                real: "Las bombillas LED se prueban para durar 20,000 horas."
+            },
+            { 
+                term: "Evaluación de Desempeño", 
+                icon: "fa-tachometer-alt",
+                def: "Medición cuantitativa del comportamiento del prototipo bajo condiciones de operación específicas (velocidad máxima, carga soportada, consumo de energía) comparándolo con los objetivos iniciales.", 
+                img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80",
+                caption: "Tablero de datos mostrando métricas de rendimiento.",
+                tip: "Lo que no se mide, no se puede mejorar.",
+                challenge: "Mide cuánto tiempo tarda tu celular en cargar del 0% al 100%.",
+                tech: "Los KPIs (Key Performance Indicators) son las métricas clave a evaluar.",
+                real: "Los atletas evalúan su desempeño con cronómetros y monitores cardíacos."
+            },
+            { 
+                term: "Funcionamiento", 
+                icon: "fa-cogs",
+                def: "Comportamiento activo del prototipo en términos de su capacidad para realizar las tareas mecánicas o lógicas previstas de manera fluida y sin interrupciones.", 
+                img: "https://images.unsplash.com/photo-1565514020176-873b94a973db?auto=format&fit=crop&w=600&q=80",
+                caption: "Mecanismo de relojería en pleno funcionamiento.",
+                tip: "Un prototipo puede ser feo, pero el funcionamiento debe ser impecable.",
+                challenge: "Describe el funcionamiento de unas tijeras en 3 pasos.",
+                tech: "El funcionamiento se valida con pruebas funcionales de 'Caja Negra' y 'Caja Blanca'.",
+                real: "El funcionamiento de un corazón artificial debe ser perfecto, sin margen de error."
+            },
+            { 
+                term: "Homologación", 
+                icon: "fa-stamp",
+                def: "Proceso oficial de certificar que un prototipo cumple con los estándares, reglamentos y normativas técnicas de un país o industria específica, permitiendo su comercialización legal.", 
+                img: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80",
+                caption: "Sello de certificación de calidad industrial.",
+                tip: "Investiga las normas antes de diseñar; homologar después es muy costoso.",
+                challenge: "Busca el símbolo de homologación en el casco de una moto.",
+                tech: "Sin homologación, un producto no puede ser asegurado ni vendido masivamente.",
+                real: "Los autos de Fórmula 1 deben ser homologados por la FIA antes de correr."
+            },
+            { 
+                term: "Herramientas de Prueba", 
+                icon: "fa-toolbox",
+                def: "Instrumentos y dispositivos especializados (multímetros, calibradores, dinamómetros, cámaras térmicas) utilizados para evaluar objetivamente las características y el rendimiento del prototipo.", 
+                img: "https://images.unsplash.com/photo-1581092335397-9583eb92d232?auto=format&fit=crop&w=600&q=80",
+                caption: "Uso de herramientas de medición de precisión.",
+                tip: "Mantén tus herramientas calibradas o tus mediciones serán mentira.",
+                challenge: "¿Qué herramienta usarías para medir la temperatura de un motor sin tocarlo?",
+                tech: "La metrología es la ciencia que estudia estas herramientas y mediciones.",
+                real: "Un osciloscopio es la herramienta clave para ver señales eléctricas invisibles."
+            },
+            { 
+                term: "Material de Prueba", 
+                icon: "fa-flask",
+                def: "Materiales específicos (a veces más baratos o fáciles de mecanizar) usados para construir versiones preliminares del prototipo y evaluar su comportamiento antes de usar los materiales finales costosos.", 
+                img: "https://images.unsplash.com/photo-1516937941348-c09645f31e88?auto=format&fit=crop&w=600&q=80",
+                caption: "Bloques de material para pruebas de mecanizado.",
+                tip: "Usa madera o plástico para probar formas antes de cortar metal.",
+                challenge: "Si vas a hacer una pieza de oro, ¿con qué material harías la prueba?",
+                tech: "El aluminio 6061 es un material de prueba común por ser fácil de mecanizar.",
+                real: "Los diseñadores de moda usan tela barata (muselina) para el primer vestido de prueba."
+            },
+            { 
+                term: "Repetibilidad", 
+                icon: "fa-redo-alt",
+                def: "Capacidad del prototipo para desempeñar la misma función y obtener el mismo resultado de manera consistente en múltiples pruebas sucesivas bajo las mismas condiciones.", 
+                img: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?auto=format&fit=crop&w=600&q=80",
+                caption: "Robot industrial repitiendo tarea con exactitud.",
+                tip: "Si funciona una vez es suerte; si funciona 100 veces es ingeniería.",
+                challenge: "Lanza una moneda 10 veces intentando que caiga siempre en el mismo lugar.",
+                tech: "Es un parámetro clave en robótica industrial.",
+                real: "Una impresora debe tener alta repetibilidad para que las letras no salgan borrosas."
+            },
+            { 
+                term: "Retroalimentación", 
+                icon: "fa-comments",
+                def: "Información crítica obtenida de las pruebas del prototipo o de usuarios beta, que se analiza y utiliza para realizar mejoras, correcciones y optimizaciones en el diseño final.", 
+                img: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=600&q=80",
+                caption: "Reunión de equipo analizando feedback del producto.",
+                tip: "Escucha las críticas; el feedback negativo es más útil que el positivo.",
+                challenge: "Pide a un amigo que use tu prototipo sin explicarle nada y observa qué hace.",
+                tech: "En sistemas de control, el 'feedback loop' corrige errores automáticamente.",
+                real: "Los desarrolladores de videojuegos lanzan versiones Beta solo para obtener retroalimentación."
+            },
+            { 
+                term: "Simulación Funcional", 
+                icon: "fa-laptop-code",
+                def: "Uso de software avanzado para predecir virtualmente el comportamiento físico del prototipo bajo diversas condiciones operativas antes de fabricarlo, ahorrando tiempo y material.", 
+                img: "https://images.unsplash.com/photo-1535378437323-9555f3e7f5bb?auto=format&fit=crop&w=600&q=80",
+                caption: "Simulación de fluidos y aerodinámica en computador.",
+                tip: "La simulación es tan buena como los datos que le ingreses (GIGO).",
+                challenge: "Busca un video de simulación de choque de autos.",
+                tech: "CFD (Dinámica de Fluidos Computacional) es un tipo de simulación funcional.",
+                real: "Los pilotos entrenan en simuladores funcionales que replican cada movimiento del avión."
+            },
+
+            // --- DOCUMENTACIÓN AUDIOVISUAL Y COMUNICACIÓN (Continuación) ---
+            { 
+                term: "Captura de Pantalla", 
+                icon: "fa-desktop",
+                def: "Grabación digital del contenido mostrado en una pantalla de computadora. Es esencial para crear tutoriales de software, demostraciones de CAD o explicar interfaces digitales.", 
+                img: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=600&q=80",
+                caption: "Interfaz de software de grabación de pantalla.",
+                tip: "Limpia tu escritorio y cierra pestañas innecesarias antes de grabar.",
+                challenge: "Graba tu pantalla explicando cómo abrir un archivo en Word.",
+                tech: "Software como OBS Studio es el estándar gratuito para esto.",
+                real: "Los youtubers de gaming viven de hacer capturas de pantalla de sus juegos."
+            },
+            { 
+                term: "Clip", 
+                icon: "fa-film",
+                def: "Segmento corto de video, generalmente sin editar o parte de una secuencia mayor. Los clips son los 'ladrillos' con los que se construye el video final durante la edición.", 
+                img: "https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&w=600&q=80",
+                caption: "Tira de película representando clips de video.",
+                tip: "Nombra tus clips organizadamente (ej: Toma1_Motor) para no perderte.",
+                challenge: "Graba 3 clips diferentes de tu mascota o un objeto en movimiento.",
+                tech: "Un clip puede durar desde fracciones de segundo hasta minutos.",
+                real: "Un video de TikTok es esencialmente un clip corto y editado."
+            },
+            { 
+                term: "Desglose de Contenido", 
+                icon: "fa-list-ol",
+                def: "División estructurada del material educativo o técnico en secciones, capítulos o módulos más pequeños. Facilita el aprendizaje y evita que el espectador se abrume con demasiada información.", 
+                img: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=600&q=80",
+                caption: "Planificación y organización de temas en una lista.",
+                tip: "Usa la regla de 'un tema por video' para mantener la claridad.",
+                challenge: "Haz un desglose de los pasos para hacer un sándwich.",
+                tech: "En e-learning, esto se llama 'Microlearning' o microaprendizaje.",
+                real: "Los cursos de Coursera están desglosados en videos de 5-10 minutos."
+            },
+            { 
+                term: "Diagrama", 
+                icon: "fa-project-diagram",
+                def: "Representación visual simplificada de datos, estructuras o conceptos que se incluye en el video (gráficos, esquemas, flujogramas) para ayudar a explicar información técnica compleja de forma rápida.", 
+                img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80",
+                caption: "Gráficos y diagramas explicativos en pantalla.",
+                tip: "Un buen diagrama vale más que mil palabras de explicación aburrida.",
+                challenge: "Dibuja un diagrama de cómo funciona el ciclo del agua.",
+                tech: "Las infografías animadas son diagramas en movimiento.",
+                real: "Los manuales de instrucciones de IKEA son puros diagramas sin texto."
+            },
+            { 
+                term: "Edición", 
+                icon: "fa-cut",
+                def: "Proceso creativo y técnico de seleccionar, cortar, ensamblar y ajustar los elementos del video (audio, imágenes, gráficos) para crear un producto final cohesivo, dinámico y narrativamente lógico.", 
+                img: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44c?auto=format&fit=crop&w=600&q=80",
+                caption: "Línea de tiempo en software de edición de video.",
+                tip: "Corta los silencios y errores; respeta el tiempo de tu audiencia.",
+                challenge: "Edita dos videos juntos usando una app de celular.",
+                tech: "El 'Montaje' es el arte de la edición cinematográfica.",
+                real: "Una película de 2 horas puede tener más de 2,000 cortes de edición."
+            },
+            { 
+                term: "Fotograma", 
+                icon: "fa-image",
+                def: "Cada una de las imágenes individuales estáticas que, al mostrarse en secuencia rápida, crean la ilusión de movimiento en un video. Es la unidad mínima de tiempo en el cine y video.", 
+                img: "https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?auto=format&fit=crop&w=600&q=80",
+                caption: "Tira de película mostrando fotogramas individuales.",
+                tip: "El video estándar corre a 24, 30 o 60 fotogramas por segundo (FPS).",
+                challenge: "Dibuja un muñeco en la esquina de un cuaderno y hazlo mover pasando las hojas.",
+                tech: "El 'Stop Motion' se hace tomando fotos fotograma a fotograma.",
+                real: "El ojo humano deja de percibir parpadeo a partir de 12 fotogramas por segundo."
+            },
+            { 
+                term: "Formato", 
+                icon: "fa-file-video",
+                def: "Estructura técnica y de estilo del video, incluyendo aspectos como la relación de aspecto (vertical/horizontal), resolución (HD, 4K), tipo de archivo (.mp4, .mov) y el estilo de presentación.", 
+                img: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=600&q=80",
+                caption: "Diferentes formatos de archivo de video digital.",
+                tip: "Para redes sociales usa formato vertical (9:16); para cine o TV usa horizontal (16:9).",
+                challenge: "Identifica si tu celular graba en formato MP4 o MOV.",
+                tech: "El códec (como H.264) es el algoritmo que comprime el formato.",
+                real: "Instagram Stories requiere un formato específico vertical de 15 segundos."
+            },
+            { 
+                term: "Guion", 
+                icon: "fa-file-alt",
+                def: "Documento escrito que detalla paso a paso los diálogos, narraciones, descripciones de escenas y acciones técnicas que ocurrirán en el video. Es el plano de construcción de la obra audiovisual.", 
+                img: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80",
+                caption: "Guion técnico con anotaciones de producción.",
+                tip: "Lee tu guion en voz alta para asegurarte de que suena natural.",
+                challenge: "Escribe un guion de 3 líneas para presentar tu prototipo.",
+                tech: "Existen guiones literarios (historia) y guiones técnicos (cámara y luces).",
+                real: "Incluso los videos de YouTube 'improvisados' suelen tener una escaleta o guion básico."
+            },
+            { 
+                term: "Producción", 
+                icon: "fa-video",
+                def: "Etapa central de la creación del video donde se ejecuta la grabación real de imágenes y sonido. Incluye la iluminación, el manejo de cámara, la dirección y la captura del material base.", 
+                img: "https://images.unsplash.com/photo-1585675373752-9df70721247d?auto=format&fit=crop&w=600&q=80",
+                caption: "Cámara profesional en set de producción.",
+                tip: "La mejor cámara es la que tienes; lo importante es la iluminación.",
+                challenge: "Improvisa un set de grabación usando una lámpara de escritorio.",
+                tech: "Se divide en Pre-producción, Producción y Post-producción.",
+                real: "Una producción de Hollywood puede tener cientos de personas en el set."
+            },
+            { 
+                term: "Subtítulos", 
+                icon: "fa-closed-captioning",
+                def: "Texto superpuesto en la parte inferior del video que proporciona la transcripción del diálogo, traducciones o información importante. Son vitales para la accesibilidad y para ver videos sin sonido.", 
+                img: "https://images.unsplash.com/photo-1611162616475-46b635cb6868?auto=format&fit=crop&w=600&q=80",
+                caption: "Video reproduciéndose con subtítulos activados.",
+                tip: "Usa una fuente clara y un borde negro para que se lean sobre cualquier fondo.",
+                challenge: "Intenta ver una película en un idioma que no conoces sin subtítulos.",
+                tech: "Los subtítulos CC (Closed Captions) incluyen descripciones de sonidos para sordos.",
+                real: "El 85% de los videos en Facebook se ven sin sonido, gracias a los subtítulos."
+            },
+            { 
+                term: "Transición", 
+                icon: "fa-random",
+                def: "Efecto visual que se utiliza en edición para pasar de una escena o clip a otro de manera fluida, creativa o lógica. Puede ser un corte directo, un desvanecimiento o efectos más complejos.", 
+                img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=600&q=80",
+                caption: "Concepto de transición y cambio de estado.",
+                tip: "Menos es más. El corte directo suele ser la mejor transición.",
+                challenge: "Haz una transición tapando la cámara con la mano y destapándola en otro lugar.",
+                tech: "El 'Cross-dissolve' es la transición clásica de fundido encadenado.",
+                real: "Star Wars hizo famosa la transición de 'cortinilla' (wipe)."
+            },
+            { 
+                term: "Tutorial", 
+                icon: "fa-chalkboard-teacher",
+                def: "Tipo específico de video educativo diseñado para transferir conocimiento práctico. Guía al espectador paso a paso a través de un proceso, procedimiento o uso de una herramienta.", 
+                img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80",
+                caption: "Persona siguiendo un tutorial en video en una tablet.",
+                tip: "Sé claro, directo y muestra primeros planos de la acción.",
+                challenge: "Piensa en un tutorial de algo que sepas hacer muy bien.",
+                tech: "El formato 'How-to' es el más buscado en internet.",
+                real: "Los tutoriales de maquillaje o cocina son ejemplos perfectos de este formato."
+            },
+            { 
+                term: "Voz en Off", 
+                icon: "fa-microphone",
+                def: "Técnica de producción donde una voz grabada narra o explica lo que sucede en el video sin que el hablante aparezca físicamente en pantalla. Permite dar contexto y profundidad a las imágenes.", 
+                img: "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=600&q=80",
+                caption: "Micrófono de estudio para grabación de voz.",
+                tip: "Graba la voz en un lugar silencioso, como un armario lleno de ropa (absorbe el eco).",
+                challenge: "Graba una narración de 10 segundos para un video de tu perro.",
+                tech: "También llamada 'Voice-over' en inglés.",
+                real: "Los documentales de naturaleza casi siempre usan voz en off para explicar la escena."
+            },
+            { 
+                term: "Webinar", 
+                icon: "fa-broadcast-tower",
+                def: "Seminario, taller o conferencia educativa que se realiza en línea, a menudo en vivo, permitiendo interacción. Puede ser grabado y distribuido posteriormente como un recurso de video educativo.", 
+                img: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=600&q=80",
+                caption: "Videoconferencia o webinar en pantalla de laptop.",
+                tip: "Interactúa con el chat para mantener a la audiencia despierta.",
+                challenge: "Asiste a un webinar gratuito sobre un tema que te interese.",
+                tech: "Plataformas como Zoom o Teams son estándares para webinars.",
+                real: "Durante la pandemia, la educación mundial se movió al formato webinar."
+            }
+            
+        ];
+
+        // LOGICA DEL SISTEMA (IDÉNTICA AL MODULO ANTERIOR)
+        const viewed = new Set();
+        const menuContainer = document.getElementById('menu-list');
+        const displayArea = document.getElementById('definition-display');
+        const countSpan = document.getElementById('count');
+        const progressFill = document.getElementById('progress-fill');
+        const finishBtn = document.getElementById('btn-finish');
+
+        function renderMenu(filter = "") {
+            menuContainer.innerHTML = "";
+            glossaryData.forEach((item, index) => {
+                if (item.term.toLowerCase().includes(filter.toLowerCase())) {
+                    const div = document.createElement('div');
+                    div.className = `menu-item ${viewed.has(index) ? 'viewed' : ''}`;
+                    div.innerHTML = `<i class="fas ${item.icon}"></i> ${item.term}`;
+                    if (viewed.has(index)) div.style.color = "var(--sena-green)";
+                    
+                    div.onclick = () => showDefinition(index, div);
+                    menuContainer.appendChild(div);
+                }
+            });
+        }
+
+        function showDefinition(index, element) {
+            const data = glossaryData[index];
+            
+            // Marcar como visto
+            viewed.add(index);
+            updateProgress();
+            
+            // Actualizar estilo del menú
+            const items = document.querySelectorAll('.menu-item');
+            items.forEach(i => i.classList.remove('active'));
+            element.classList.add('active');
+            element.style.color = "white"; // Force white text on active
+
+            // Renderizar contenido
+            displayArea.innerHTML = `
+                <h2 class="term-title">${data.term}</h2>
+                <div class="def-layout">
+                    <div class="def-text-side">
+                        <p>${data.def}</p>
+                        
+                        <div class="cards-grid">
+                            <div class="info-card card-tip">
+                                <h4><i class="fas fa-lightbulb"></i> Tip Maker</h4>
+                                ${data.tip}
+                            </div>
+                            <div class="info-card card-challenge">
+                                <h4><i class="fas fa-rocket"></i> Reto Rápido</h4>
+                                ${data.challenge}
+                            </div>
+                            <div class="info-card card-tech">
+                                <h4><i class="fas fa-cog"></i> Dato Técnico</h4>
+                                ${data.tech}
+                            </div>
+                            <div class="info-card card-real">
+                                <h4><i class="fas fa-globe-americas"></i> En la Vida Real</h4>
+                                ${data.real}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="def-image-side">
+                        <img src="${data.img}" alt="${data.term}">
+                        <p class="image-caption">${data.caption}</p>
+                    </div>
+                </div>
+            `;
+
+            // Reiniciar animación
+            displayArea.style.animation = 'none';
+            displayArea.offsetHeight; /* trigger reflow */
+            displayArea.style.animation = 'fadeIn 0.4s ease-out';
+        }
+
+        function updateProgress() {
+            const total = glossaryData.length;
+            const current = viewed.size;
+            
+            countSpan.innerText = current;
+            const percentage = (current / total) * 100;
+            progressFill.style.width = percentage + "%";
+
+            if (current === total) {
+                finishBtn.classList.add('ready');
+                finishBtn.removeAttribute('disabled');
+            }
+        }
+
+        function filterMenu(value) {
+            renderMenu(value);
+        }
+
+        function finishModule() {
+    // Verificamos si ya vio todos los términos
+    if (viewed.size === glossaryData.length) {
+        const storageKey = 'makerCourseState'; 
+        const savedState = localStorage.getItem(storageKey);
+        
+        // Lógica de guardado en LocalStorage
+        if (savedState) {
+            const state = JSON.parse(savedState);
+            if (!state.completedModules.includes(8)) {
+                state.completedModules.push(8);
+            }
+            localStorage.setItem(storageKey, JSON.stringify(state));
+        }
+        
+        // --- AQUÍ ESTÁ EL CAMBIO PARA LA ANIMACIÓN ---
+        const modal = document.getElementById('congrats-modal');
+        const content = document.getElementById('congrats-content');
+        
+        // Mostramos el contenedor (está oculto por defecto con display: none)
+        modal.style.display = 'flex';
+        
+        // Usamos un pequeño delay para que el navegador registre el cambio de display
+        // y pueda ejecutar la transición de opacidad y escala
+        setTimeout(() => {
+            modal.style.opacity = '1';
+            content.style.transform = 'scale(1)';
+        }, 50);
+        
+        // Eliminamos el window.location de aquí para que no se cierre solo
+    } else {
+        // Opcional: un aviso por si intentan dar clic antes de terminar
+        alert("Aún no has leído todos los términos del glosario.");
+    }
+}
+
+        // Inicializar
+        renderMenu();
+    </script>
+
+</body>
+</html>

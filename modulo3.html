@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Módulo 3: Reflexión Inicial</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    
+
+    <style>
+
+        :root {
+
+            /* Paleta Institucional */
+
+            --sena-green: #39A900; 
+
+            --sena-blue: #00324D; 
+
+            --sena-orange: #FF6C00;
+
+            --bg-body: #F4F6F9; 
+
+            --bg-card: #FFFFFF; 
+
+            --text-gray: #59667a;
+
+            --shadow: 0 4px 20px rgba(0,0,0,0.05); 
+
+            --radius: 12px;
+
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body { font-family: 'Roboto', sans-serif; background-color: var(--bg-body); color: var(--sena-blue); line-height: 1.6; }
+
+        
+
+        /* HEADER */
+
+        header { background-color: var(--bg-card); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
+
+        .header-left { display: flex; align-items: center; gap: 20px; }
+
+        .back-btn { text-decoration: none; color: var(--sena-blue); font-weight: bold; display: flex; align-items: center; gap: 10px; transition: color 0.3s; }
+
+        .back-btn:hover { color: var(--sena-orange); }
+
+        
+
+        /* Título del Módulo Centrado en Header */
+
+        .module-title { font-family: 'Montserrat', sans-serif; text-transform: uppercase; font-weight: 700; color: var(--sena-blue); font-size: 1.0rem; text-align: center; flex-grow: 1; letter-spacing: 1.7px;}
+
+        @media(max-width: 768px) { .module-title { display: none; } }
+
+
+
+        /* CONTENIDO */
+
+        .container { max-width: 1000px; margin: 2rem auto; padding: 0 20px; }
+
+        
+
+        /* BANNER */
+
+        .banner-container { width: 100%; margin-bottom: 2rem; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); background: white; text-align: center; }
+
+        .banner-container img { width: 100%; max-height: 300px; object-fit: cover; }
+
+        
+
+        /* CARDS GENERALES */
+
+        .info-card { background: var(--bg-card); border-radius: var(--radius); padding: 3rem; box-shadow: var(--shadow); border-top: 5px solid var(--sena-green); margin-bottom: 2rem; }
+
+        .section-title { font-family: 'Montserrat'; color: var(--sena-green); font-size: 1.4rem; margin-bottom: 1.5rem; text-transform: uppercase; display: flex; align-items: center; gap: 10px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+
+        
+
+        /* SECCIÓN 1: PRESENTACIÓN (Grid con TecnoBot) */
+
+        .presentation-content { display: grid; grid-template-columns: 1fr 200px; gap: 30px; align-items: center; }
+
+        .tecnobot-img { width: 130%; animation: float 3s ease-in-out infinite; }
+
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
+
+        
+
+        .meta-list { list-style: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+        .meta-list li { background: #f8f9fa; padding: 10px 15px; border-radius: 8px; border-left: 4px solid var(--sena-orange); font-size: 0.9rem; }
+
+        .meta-list li strong { color: var(--sena-blue); display: block; margin-bottom: 4px; }
+
+
+
+        /* SECCIÓN 2: INTRODUCCIÓN INTERACTIVA (Steps) */
+
+        .process-container { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+
+        .process-step { background: white; border: 1px solid #eee; padding: 20px; border-radius: 15px; width: 280px; text-align: center; transition: transform 0.3s; position: relative; overflow: hidden; }
+
+        .process-step:hover { transform: translateY(-10px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); border-color: var(--sena-green); }
+
+        .step-icon { font-size: 3rem; color: var(--sena-blue); margin-bottom: 15px; }
+
+        .step-number { position: absolute; top: -10px; right: -10px; background: var(--sena-orange); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-family: 'Montserrat'; }
+
+
+
+        /* SECCIÓN 3: NARRATIVA (Estilo Chat con Personajes) */
+
+        .narrative-block { display: flex; gap: 20px; margin-bottom: 30px; align-items: flex-start; }
+
+        .narrative-block.reverse { flex-direction: row-reverse; text-align: right; }
+
+        .character-avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid var(--sena-green); flex-shrink: 0; background: white; }
+
+        .dialogue-box { background: #e3f2fd; padding: 20px; border-radius: 0 20px 20px 20px; position: relative; font-size: 0.95rem; color: #333; flex-grow: 1; }
+
+        .narrative-block.reverse .dialogue-box { background: #fff3e0; border-radius: 20px 0 20px 20px; }
+
+        
+
+        .concept-image { width: 100%; max-width: 600px; border-radius: 10px; margin: 20px auto; display: block; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+
+
+
+        /* SECCIÓN 4: ODS */
+
+        /* SECCIÓN 4: ODS MEJORADA */
+        .ods-grid { 
+            display: flex; 
+            justify-content: center; 
+            gap: 25px; 
+            flex-wrap: wrap; 
+            margin-top: 30px; 
+            perspective: 1000px; /* Necesario para el efecto 3D */
+        }
+
+        .ods-card {
+            width: 160px; /* Tamaño más grande */
+            height: 160px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .ods-card:hover {
+            transform: rotateY(180deg);
+        }
+
+        .ods-front, .ods-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden; /* Oculta la parte trasera al estar de frente */
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .ods-front img {
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+            object-fit: cover;
+        }
+
+        .ods-back {
+            background-color: var(--sena-blue);
+            color: white;
+            transform: rotateY(180deg);
+            padding: 15px;
+            text-align: center;
+            font-size: 0.8rem;
+            line-height: 1.3;
+            flex-direction: column;
+        }
+
+        .ods-back i {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            color: var(--sena-orange);
+        }
+
+
+
+        /* SECCIÓN 5: PREGUNTAS INTERACTIVAS (Acordeón) */
+
+        .accordion { margin-top: 20px; }
+
+        .accordion-item { border: 1px solid #ddd; border-radius: 8px; margin-bottom: 10px; overflow: hidden; }
+
+        .accordion-header { background: #f8f9fa; padding: 15px; cursor: pointer; font-weight: bold; color: var(--sena-blue); display: flex; justify-content: space-between; align-items: center; transition: background 0.3s; }
+
+        .accordion-header:hover { background: #e9ecef; }
+
+        .accordion-content { display: none; padding: 20px; background: white; color: var(--text-gray); border-top: 1px solid #ddd; }
+
+        
+
+        /* BOTÓN FINAL */
+
+        .final-action { text-align: center; margin-top: 40px; }
+
+        .btn-finish { background: var(--sena-green); color: white; border: none; padding: 15px 50px; font-size: 1.2rem; border-radius: 50px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(57, 169, 0, 0.3); transition: transform 0.2s; display: inline-flex; align-items: center; gap: 10px; }
+
+        .btn-finish:hover { transform: scale(1.05); background: #2e8b00; }
+
+
+
+        /* OVERLAY DE INSIGNIA */
+
+        #badgeOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,50,77,0.95); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 2000; text-align: center; color: white; }
+
+        .badge-anim { width: 250px; animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); margin-bottom: 20px; }
+
+        @keyframes popIn { from { transform: scale(0) rotate(-180deg); opacity: 0; } to { transform: scale(1) rotate(0); opacity: 1; } }
+
+        .congrats-text { font-family: 'Montserrat'; font-size: 2.5rem; margin-bottom: 10px; text-transform: uppercase; color: #FFD700; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+
+        .btn-return { background: white; color: var(--sena-blue); padding: 12px 30px; border-radius: 25px; text-decoration: none; font-weight: bold; transition: 0.3s; margin-top: 20px; display: inline-block; cursor: pointer; border: none; }
+
+        .btn-return:hover { background: var(--sena-orange); color: white; }
+
+
+
+        @media (max-width: 768px) {
+
+            .presentation-content { grid-template-columns: 1fr; text-align: center; }
+
+            .tecnobot-img { max-width: 150px; margin: 0 auto; }
+
+            .meta-list { grid-template-columns: 1fr; }
+
+            .narrative-block, .narrative-block.reverse { flex-direction: column; align-items: center; text-align: center; }
+
+            .dialogue-box { border-radius: 20px; }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+
+    <header>
+
+        <div class="header-left">
+
+            <img src="imagenes/Logos/sena.png" alt="Logo SENA" style="height: 50px; width: auto;">
+
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Volver al Centro de Comando</a>
+
+        </div>
+
+        <div class="module-title">Módulo 3: Reflexión Inicial</div>
+
+        <img src="imagenes/Logos/tecnoacademia.jpeg" alt="Logo Tecnoacademia" style="height: 50px; width: auto;">
+
+    </header>
+
+
+
+    <div class="container">
+
+        
+
+        <div class="banner-container">
+
+            <img src="imagenes/Fondos/Titulos_Mesa de trabajo 1 copia.png" alt="Banner Reflexión Inicial">
+
+        </div>
+
+
+
+        <div class="info-card">
+
+            <div class="section-title"><i class="fas fa-info-circle"></i> Ficha de Misión</div>
+
+            <div class="presentation-content">
+
+                <div>
+
+                    <p style="margin-bottom: 20px;">En este módulo exploraremos la conexión vital entre el lápiz y la máquina. ¿Cómo pasa una idea de tu mente al mundo real? Analizaremos la importancia de cada paso en el ciclo de vida de un prototipo.</p>
+
+                    <ul class="meta-list">
+
+                        <li><strong><i class="fas fa-bullseye"></i> Actividad</strong>Importancia: Bocetado vs 3D vs Funcional</li>
+
+                        <li><strong><i class="fas fa-users"></i> Dinámica</strong>Mesa Redonda (Debate Activo)</li>
+
+                        <li><strong><i class="fas fa-clock"></i> Duración</strong>3 Horas (2 Presenciales / 1 Autónoma)</li>
+
+                        <li><strong><i class="fas fa-clipboard-check"></i> Evidencia</strong>Actividad de Emparejamiento</li>
+
+                        <li><strong><i class="fas fa-laptop"></i> Recursos</strong>Proyector, PC, Papel y Lápiz</li>
+
+                        <li><strong><i class="fas fa-layer-group"></i> Ambiente</strong>Convencional o Especializado</li>
+
+                    </ul>
+
+                </div>
+
+                <img src="imagenes/Personajes/tecnoBot/para talleres_Mesa de trabajo 1.png" alt="TecnoBot Motivador" class="tecnobot-img">
+
+            </div>
+
+        </div>
+
+
+
+        <div class="info-card">
+
+           <div class="section-header">
+    <div class="section-title"><i class="fas fa-project-diagram"></i> El Ciclo de Creación Maker</div>
+</div>
+<p>El paso de una idea a un producto real no es lineal, es un proceso de refinamiento continuo. Explora las etapas críticas para llevar tus proyectos al siguiente nivel:</p>
+
+<div class="process-container">
+    <div class="process-step">
+        <div class="step-number">1</div>
+        <i class="fas fa-pencil-ruler step-icon"></i>
+        <h3>Bocetado e Ideación</h3>
+        <p>Es la fase de "ensuciarse las manos" con el lápiz. Aquí definimos la forma, el volumen y las dimensiones preliminares. Un buen boceto ahorra horas de errores en el computador.</p>
+        <ul style="text-align: left; font-size: 0.85rem; margin-top: 10px; padding-left: 15px; color: var(--text-gray);">
+            <li>Lluvia de ideas</li>
+            <li>Dibujo a mano alzada</li>
+            <li>Dimensionamiento básico</li>
+        </ul>
+    </div>
+
+    <div class="process-step">
+        <div class="step-number">2</div>
+        <i class="fas fa-cube step-icon"></i>
+        <h3>Modelado e Impresión 3D</h3>
+        <p>Traducimos el papel a un entorno CAD (Diseño Asistido por Computador). La impresión 3D nos permite palpar la ergonomía y verificar que las piezas encajen físicamente.</p>
+        <ul style="text-align: left; font-size: 0.85rem; margin-top: 10px; padding-left: 15px; color: var(--text-gray);">
+            <li>Diseño paramétrico</li>
+            <li>Laminado (Slicing)</li>
+            <li>Prototipado rápido</li>
+        </ul>
+    </div>
+
+    <div class="process-step">
+        <div class="step-number">3</div>
+        <i class="fas fa-vial step-icon"></i>
+        <h3>Validación Técnica</h3>
+        <p>Antes de finalizar, sometemos el prototipo a pruebas de esfuerzo, calor o flujo. Verificamos que cumpla con las normas de seguridad y resistencia mecánica necesarias.</p>
+        <ul style="text-align: left; font-size: 0.85rem; margin-top: 10px; padding-left: 15px; color: var(--text-gray);">
+            <li>Pruebas de resistencia</li>
+            <li>Ajuste de tolerancias</li>
+            <li>Normativa de seguridad</li>
+        </ul>
+    </div>
+
+    <div class="process-step">
+        <div class="step-number">4</div>
+        <i class="fas fa-rocket step-icon"></i>
+        <h3>Prototipo Funcional</h3>
+        <p>La versión final que soluciona el problema. Integra electrónica, mecánica y estética. Es el resultado de haber fallado rápido y barato en las etapas anteriores.</p>
+        <ul style="text-align: left; font-size: 0.85rem; margin-top: 10px; padding-left: 15px; color: var(--text-gray);">
+            <li>Ensamble final</li>
+            <li>Documentación técnica</li>
+            <li>Presentación de solución</li>
+        </ul>
+    </div>
+</div>
+
+
+
+<div style="background: #fff3e0; padding: 20px; border-radius: 12px; margin-top: 25px; border-left: 5px solid var(--sena-orange); display: flex; align-items: center; gap: 15px;">
+    <i class="fas fa-sync-alt fa-spin" style="font-size: 2rem; color: var(--sena-orange);"></i>
+    <p style="margin: 0; font-size: 0.95rem;"><strong>Concepto Maker: Iteración.</strong> No te frustres si al llegar a la validación debes volver al boceto. Cada vuelta al ciclo hace tu proyecto más robusto y profesional.</p>
+</div>
+        </div>
+
+
+
+        <div class="info-card">
+
+            <div class="section-title"><i class="fas fa-comments"></i> Mensaje de la Expedición</div>
+
+            
+
+            <div class="narrative-block">
+
+                <img src="imagenes/Personajes/Maker/Lectro.png" alt="Lectro" class="character-avatar">
+
+                <div class="dialogue-box">
+
+                    <strong>Lectro dice:</strong><br>
+
+                    "¡Bienvenidos, expedicionarios Makers! La articulación entre el bocetado, la impresión 3D y el prototipo funcional es la clave del éxito. El bocetado nos permite plasmar ideas rápido y sin miedo a equivocarnos. ¡Aquí es donde dan rienda suelta a su imaginación!"
+
+                </div>
+
+            </div>
+
+
+
+            <div class="narrative-block reverse">
+
+                <img src="imagenes/Personajes/Maker/Maker_TIC_MUJER.png" alt="Maker TIC" class="character-avatar">
+
+                <div class="dialogue-box">
+
+                    <strong>Maker TIC dice:</strong><br>
+
+                    "Exacto, pero no olviden que en el Prototipo Funcional es donde las ideas cobran vida real. Debemos validar según normas técnicas para garantizar seguridad. Iterar entre boceto, impresión y prueba es lo que hace un diseño eficiente."
+
+                </div>
+
+            </div>
+
+
+
+            <div style="text-align: center; margin: 30px 0;">
+
+                <p style="font-size: 0.9rem; color: var(--text-gray);"><em>Fig 1. Del papel a la realidad: Evolución del diseño.</em></p>
+
+                <img src="imagenes/Otros/boceto3.png" alt="Proceso de Bocetado" class="concept-image">
+
+            </div>
+
+
+
+            <p style="background: #e8f5e9; padding: 15px; border-radius: 8px; border-left: 4px solid var(--sena-green);">
+
+                <i class="fas fa-book"></i> <strong>Nota Técnica:</strong> Documentar la solución según normativa optimiza el proceso, fomenta la innovación y transforma ideas en soluciones reales (López et al, 2018).
+
+            </p>
+
+
+
+            <br>
+
+
+
+            <div class="narrative-block">
+
+                <img src="imagenes/Personajes/Maker/Facilitadr_Tecnologias_Virtuales2.png" alt="Facilitador" class="character-avatar">
+
+                <div class="dialogue-box" style="background: #e0f7fa;">
+
+                    <strong>Facilitador Virtual:</strong><br>
+
+                    "Apreciado expedicionario, te invito a la Mesa Redonda. Reflexiona sobre lo que has visto y prepárate para debatir las siguientes preguntas."
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="info-card">
+
+            <div class="section-title"><i class="fas fa-globe-americas"></i> Impacto en los ODS</div>
+
+            <p>Este módulo contribuye directamente a los Objetivos de Desarrollo Sostenible:</p>
+
+            <div class="ods-grid">
+                <div class="ods-card">
+                    <div class="ods-front">
+                        <img src="imagenes/ODS/ODS_3.png" alt="ODS 3">
+                    </div>
+                    <div class="ods-back">
+                        <i class="fas fa-heartbeat"></i>
+                        <p><strong>Salud:</strong> Validar normas técnicas asegura prototipos seguros que no ponen en riesgo la salud del usuario final.</p>
+                    </div>
+                </div>
+
+                <div class="ods-card">
+                    <div class="ods-front">
+                        <img src="imagenes/ODS/ODS_4.png" alt="ODS 4">
+                    </div>
+                    <div class="ods-back">
+                        <i class="fas fa-user-graduate"></i>
+                        <p><strong>Educación:</strong> El proceso de bocetado y reflexión técnica fomenta un aprendizaje maker de alta calidad.</p>
+                    </div>
+                </div>
+
+                <div class="ods-card">
+                    <div class="ods-front">
+                        <img src="imagenes/ODS/ODS_8.png" alt="ODS 8">
+                    </div>
+                    <div class="ods-back">
+                        <i class="fas fa-briefcase"></i>
+                        <p><strong>Trabajo:</strong> Entender el ciclo profesional (Boceto-3D-Funcional) prepara para empleos del futuro.</p>
+                    </div>
+                </div>
+
+                <div class="ods-card">
+                    <div class="ods-front">
+                        <img src="imagenes/ODS/ODS_9.png" alt="ODS 9">
+                    </div>
+                    <div class="ods-back">
+                        <i class="fas fa-lightbulb"></i>
+                        <p><strong>Innovación:</strong> La iteración entre diseño y prototipado es la base de la infraestructura tecnológica moderna.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <div class="info-card">
+
+            <div class="section-title"><i class="fas fa-question-circle"></i> Preguntas para la Mesa Redonda</div>
+
+            <p>Haz clic en cada pregunta para ver pistas de reflexión y prepara tus argumentos:</p>
+
+
+
+            <div class="accordion">
+
+                <div class="accordion-item">
+
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+
+                        1. ¿Qué asegura que un prototipo cumpla las expectativas? <i class="fas fa-chevron-down"></i>
+
+                    </div>
+
+                    <div class="accordion-content">
+
+                        Reflexiona sobre la funcionalidad, la experiencia del usuario final y si resuelve el problema inicial planteado en el boceto.
+
+                    </div>
+
+                </div>
+
+                <div class="accordion-item">
+
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+
+                        2. ¿Por qué validar normas técnicas antes de implementar? <i class="fas fa-chevron-down"></i>
+
+                    </div>
+
+                    <div class="accordion-content">
+
+                        Piensa en la seguridad del usuario y en la viabilidad legal y comercial del producto. Un prototipo inseguro no es un producto.
+
+                    </div>
+
+                </div>
+
+                <div class="accordion-item">
+
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+
+                        3. ¿Cómo la validación garantiza calidad y seguridad? <i class="fas fa-chevron-down"></i>
+
+                    </div>
+
+                    <div class="accordion-content">
+
+                        Considera los estándares de la industria. Seguir regulaciones evita fallas catastróficas y asegura que el producto dure en el tiempo.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="final-action">
+
+                <button class="btn-finish" onclick="finishModule()">
+
+                    <i class="fas fa-medal"></i> Finalizar Actividad y Reclamar Insignia
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+
+
+    <div id="badgeOverlay">
+
+        <h1 class="congrats-text">¡FELICITACIONES!</h1>
+
+        <img src="imagenes/Insignias/Insignias Mohs/01 - Insignias MOHS-Plata.png" alt="Insignia Plata" class="badge-anim">
+
+        <h2 style="font-family: 'Montserrat';">Has desbloqueado la Insignia de Plata</h2>
+
+        <p>Tu capacidad de reflexión es digna de un Maker Técnico.</p>
+
+        <button class="btn-return" onclick="returnToIndex()">
+
+            <i class="fas fa-arrow-left"></i> Volver al Centro de Comando
+
+        </button>
+
+    </div>
+
+
+
+    <script>
+
+        // Funcionalidad del Acordeón
+
+        function toggleAccordion(header) {
+
+            const content = header.nextElementSibling;
+
+            const icon = header.querySelector('i');
+
+            
+
+            if (content.style.display === "block") {
+
+                content.style.display = "none";
+
+                icon.className = "fas fa-chevron-down";
+
+            } else {
+
+                content.style.display = "block";
+
+                icon.className = "fas fa-chevron-up";
+
+            }
+
+        }
+
+
+
+        // Lógica de Finalización
+
+        function finishModule() {
+
+            const storageKey = 'makerCourseState'; 
+
+            const savedState = localStorage.getItem(storageKey);
+
+            
+
+            // ID del Módulo actual (3) y el siguiente a desbloquear (4)
+
+            const currentModuleId = 3;
+
+            const nextModuleId = 4;
+
+
+
+            if (savedState) {
+
+                const state = JSON.parse(savedState);
+
+                
+
+                // 1. Marcar como completado
+
+                if (!state.completedModules.includes(currentModuleId)) {
+
+                    state.completedModules.push(currentModuleId);
+
+                }
+
+
+
+                // 2. Desbloquear siguiente
+
+                if (!state.unlockedModules.includes(nextModuleId)) {
+
+                    state.unlockedModules.push(nextModuleId);
+
+                }
+
+
+
+                // 3. Guardar
+
+                localStorage.setItem(storageKey, JSON.stringify(state));
+
+                
+
+                // 4. Mostrar Animación
+
+                document.getElementById('badgeOverlay').style.display = 'flex';
+
+                
+
+            } else {
+
+                alert("No se encontró sesión activa. Volviendo al inicio...");
+
+                window.location.href = 'index.html';
+
+            }
+
+        }
+
+
+
+        function returnToIndex() {
+
+            window.location.href = 'index.html';
+
+        }
+
+    </script>
+
+
+
+</body>
+
+</html>

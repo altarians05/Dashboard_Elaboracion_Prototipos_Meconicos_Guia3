@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo 2: Protocolos de Seguridad - Academia Makers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root { 
+            --sena-green: #39A900; 
+            --sena-blue: #00324D; 
+            --sena-orange: #FF6C00; 
+            --bg-body: #F4F6F9; 
+            --bg-card: #FFFFFF; 
+            --text-gray: #59667a; 
+            --shadow: 0 4px 20px rgba(0,0,0,0.05); 
+            --radius: 12px; 
+            --menu-width: 300px; 
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Roboto', sans-serif; background-color: var(--bg-body); color: var(--sena-blue); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+        
+        /* HEADER */
+        header { 
+    background-color: var(--bg-card); 
+    padding: 0.5rem 2rem; 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; /* Mantiene los extremos en su lugar */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
+    z-index: 100;
+    height: 75px;
+}
+
+/* Añade esta nueva regla para el título */
+.header-center {
+    flex: 1; /* Toma el espacio disponible */
+    text-align: center;
+}
+
+.header-center h1 {
+    font-family: 'Montserrat';
+    font-size: 1rem;
+    color: var(--sena-blue);
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Nuevo estilo para los detalles de las imágenes */
+.img-detail {
+    display: block;
+    font-size: 0.7rem;
+    color: #666;
+    line-height: 1.2;
+    margin-top: 5px;
+    padding: 0 5px;
+    text-align: balance;
+}
+
+/* Ajuste a la tarjeta para que soporte más texto */
+.image-card {
+    min-height: 180px; /* Le damos un poco más de altura */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+        .header-left { display: flex; align-items: center; gap: 20px; }
+        header img { height: 45px; width: auto; object-fit: contain; }
+        .back-btn { text-decoration: none; color: var(--sena-blue); font-weight: bold; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; transition: 0.3s; }
+        .back-btn:hover { color: var(--sena-orange); }
+
+        /* LAYOUT PRINCIPAL */
+        .main-layout { display: flex; flex: 1; max-width: 1400px; margin: 2rem auto; gap: 2rem; width: 100%; padding: 0 20px; }
+        
+        /* SIDEBAR CON PINS STEAM+ */
+        .sidebar { width: var(--menu-width); background: var(--bg-card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.5rem; height: fit-content; position: sticky; top: 2rem; }
+        .sidebar h3 { font-family: 'Montserrat'; color: var(--sena-green); margin-bottom: 1.5rem; border-bottom: 2px solid #eee; padding-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        
+        .menu-item { display: flex; align-items: center; gap: 12px; padding: 10px 15px; margin-bottom: 8px; border-radius: 8px; cursor: pointer; transition: all 0.3s; color: var(--text-gray); font-weight: 500; font-size: 0.9rem; }
+        .menu-item img { width: 25px; height: 25px; object-fit: contain; filter: grayscale(1); transition: 0.3s; }
+        .menu-item:hover { background: #f0fdf4; color: var(--sena-green); }
+        .menu-item.active { background: var(--sena-green); color: white; box-shadow: 0 4px 10px rgba(57, 169, 0, 0.3); }
+        .menu-item.active img { filter: grayscale(0) brightness(1.5); }
+
+        /* AREA DE CONTENIDO */
+        .content-area { flex: 1; background: var(--bg-card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 2.5rem; min-height: 650px; position: relative; }
+        .protocol-section { display: none; animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .protocol-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+        
+        .section-title { font-family: 'Montserrat'; color: var(--sena-blue); font-size: 1.8rem; margin-bottom: 1.5rem; border-left: 5px solid var(--sena-orange); padding-left: 1rem; }
+
+        /* COMPONENTES MAKER */
+        .maker-card { background: #f8fafc; border-radius: 15px; padding: 20px; margin-bottom: 20px; border: 1px solid #e2e8f0; transition: 0.3s; }
+        .maker-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: var(--sena-orange); }
+        
+        .character-box { display: flex; align-items: center; gap: 20px; background: #E3F2FD; padding: 20px; border-radius: 15px; margin-bottom: 2rem; border: 2px dashed #2196F3; }
+        .character-box img { width: 100px; animation: bounce 3s infinite; }
+        .speech-bubble { font-style: italic; font-weight: 500; color: #0D47A1; }
+
+        .image-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-top: 2rem; }
+        .image-card { background: white; border: 2px solid #eee; border-radius: 12px; padding: 10px; text-align: center; transition: 0.3s; }
+        .image-card:hover { border-color: var(--sena-green); transform: scale(1.05); }
+        .image-card img { width: 100%; height: 100px; object-fit: contain; margin-bottom: 8px; }
+        .image-card p { font-size: 0.75rem; font-weight: bold; color: var(--sena-blue); text-transform: uppercase; }
+
+        /* BOTONES STYLIZED */
+        .nav-controls { display: flex; justify-content: center; gap: 20px; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #eee; }
+        .btn-maker {
+            padding: 12px 25px; border-radius: 50px; border: none; font-family: 'Montserrat'; font-weight: 700; cursor: pointer;
+            transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 10px;
+            box-shadow: 0 4px 0 #c45200; position: relative;
+        }
+        .btn-next { background: var(--sena-orange); color: white; }
+        .btn-next:hover { background: #e65100; transform: translateY(-2px); box-shadow: 0 6px 0 #c45200; }
+        .btn-next:active { transform: translateY(2px); box-shadow: 0 2px 0 #c45200; }
+
+        /* QUIZ */
+        .quiz-container { background: #f0f4f8; padding: 25px; border-radius: 15px; border-left: 8px solid var(--sena-blue); }
+        .quiz-question { margin-bottom: 1.5rem; padding-bottom: 1rem; }
+        .quiz-question h4 { margin-bottom: 10px; color: var(--sena-blue); }
+        .quiz-options label { 
+            display: block; background: white; padding: 10px 15px; margin: 8px 0; border-radius: 8px; 
+            border: 1px solid #ddd; cursor: pointer; transition: 0.2s; 
+        }
+        .quiz-options label:hover { background: #e8f5e9; border-color: var(--sena-green); }
+        .quiz-options input { margin-right: 10px; }
+
+        /* OVERLAY FINAL */
+        #insignia-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 50, 77, 0.95);
+            display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 2000;
+            color: white; text-align: center;
+        }
+        .insignia-anim { width: 250px; animation: pulseInsignia 2s infinite; margin-bottom: 20px; }
+        @keyframes pulseInsignia {
+            0% { transform: scale(1); filter: drop-shadow(0 0 10px var(--sena-orange)); }
+            50% { transform: scale(1.1); filter: drop-shadow(0 0 30px var(--sena-orange)); }
+            100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--sena-orange)); }
+        }
+
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @media (max-width: 768px) { .main-layout { flex-direction: column; } .sidebar { width: 100%; position: static; } }
+
+	/* Estilos para la barra de progreso en el sidebar */
+.progress-container {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+.progress-text {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: var(--sena-blue);
+    margin-bottom: 8px;
+    display: block;
+}
+.progress-bar-bg {
+    width: 100%;
+    height: 12px;
+    background: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.progress-bar-fill {
+    width: 0%; /* Iniciará en 0% */
+    height: 100%;
+    background: linear-gradient(90deg, var(--sena-green), #4ade80);
+    transition: width 0.5s ease-in-out;
+}
+    </style>
+</head>
+<body>
+
+    <header>
+    <div class="header-left">
+        <img src="imagenes/Logos/sena.png" alt="SENA">
+        <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Volver al Centro de Comando</a>
+    </div>
+
+    <div class="header-center">
+        <h1>Módulo 2: Protocolos de Bioseguridad</h1>
+    </div>
+
+    <img src="imagenes/Logos/tecnoacademia.jpeg" alt="TecnoAcademia">
+</header>
+
+    <div class="main-layout">
+        <aside class="sidebar">
+            <h3><i class="fas fa-user-shield"></i> SEGURIDAD</h3>
+            <div class="menu-item active" onclick="showSection(0)"><img src="imagenes/Insignias/Pin STEAM+/Pin_S.png"> 0. Inicio</div>
+            <div class="menu-item" onclick="showSection(1)"><img src="imagenes/Insignias/Pin STEAM+/Pin_T.png"> 1. General</div>
+            <div class="menu-item" onclick="showSection(2)"><img src="imagenes/Insignias/Pin STEAM+/Pin_E.png"> 2. Eléctrico</div>
+            <div class="menu-item" onclick="showSection(3)"><img src="imagenes/Insignias/Pin STEAM+/Pin_A.png"> 3. Robótica</div>
+            <div class="menu-item" onclick="showSection(4)"><img src="imagenes/Insignias/Pin STEAM+/Pin_M.png"> 4. Bioseguridad</div>
+            <div class="menu-item" onclick="showSection(5)"><img src="imagenes/Insignias/Pin STEAM+/Pin_S.png"> 5. EPP</div>
+            <div class="menu-item" onclick="showSection(6)"><img src="imagenes/Insignias/Pin STEAM+/Pin_T.png"> 6. Auxilios</div>
+            <div class="menu-item" onclick="showSection(7)"><img src="imagenes/Insignias/Pin STEAM+/Pin_E.png"> 7. Evacuación</div>
+            <div class="menu-item" onclick="showSection(8)" style="color:var(--sena-orange);"><img src="imagenes/Insignias/Pin STEAM+/Pin_A.png"> 8. Evaluación</div>
+	<div class="progress-container">
+        <span class="progress-text">Progreso del Módulo: <span id="progress-percent">0%</span></span>
+        <div class="progress-bar-bg">
+            <div id="progress-fill" class="progress-bar-fill"></div>
+        </div>
+    </div>
+        </aside>
+
+        <main class="content-area">
+            
+            <div id="sec-0" class="protocol-section active">
+                <div class="character-box">
+                    <img src="imagenes/Personajes/tecnoBot/para talleres_Mesa de trabajo 1.png" alt="TecnoBot">
+                    <div class="speech-bubble">
+                        "¡Hola, futuro Maker! Antes de encender los motores y dar vida a tus prototipos, debemos convertirnos en expertos de la seguridad. ¡Tu integridad es el componente más importante de cualquier invento!"
+                    </div>
+                </div>
+                <h2 class="section-title">Módulo: Protocolos de Bioseguridad</h2>
+                <div class="maker-card">
+                    <p><strong>Descripción:</strong> Aprenderás a identificar riesgos y aplicar normas para protegerte a ti y a tus compañeros en el laboratorio de ingeniería.</p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; font-size: 0.9rem;">
+                        <span><i class="fas fa-clock"></i> <strong>Duración:</strong> 2 Horas</span>
+                        <span><i class="fas fa-users"></i> <strong>Modalidad:</strong> Grupal</span>
+                        <span><i class="fas fa-tools"></i> <strong>Ambiente:</strong> Laboratorio</span>
+                        <span><i class="fas fa-file-alt"></i> <strong>Evidencia:</strong> Quiz Interactivo</span>
+                    </div>
+                    <div style="display: flex; justify-content: center; width: 100%; margin-top: 20px;">
+    <a href="documentos/Anexos/Manual Bioseguridad TecnoAcademia.pdf" target="_blank" class="btn-maker btn-next" style="width: fit-content; text-decoration: none;">
+        <i class="fas fa-download"></i> Descargar Manual Técnico
+    </a>
+</div>
+                </div>
+                <div class="nav-controls">
+                    <button class="btn-maker btn-next" onclick="showSection(1)">Comenzar Entrenamiento <i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+            <div id="sec-1" class="protocol-section">
+                <h2 class="section-title">1. Protocolo General de Convivencia</h2>
+		<div class="maker-card" style="border-left: 5px solid var(--sena-blue); background: #eef2f7;">
+    <div style="display: flex; align-items: center; gap: 15px;">
+        <i class="fas fa-lightbulb" style="font-size: 2rem; color: var(--sena-orange);"></i>
+        <div>
+            <h4 style="margin: 0; color: var(--sena-blue);">Cultura de Prevención</h4>
+            <p style="margin: 5px 0 0; font-size: 0.95rem;">
+                Bienvenido a la sección de <strong>Protocolos Generales</strong>. Antes de manipular cualquier herramienta, es fundamental entender que el laboratorio es un espacio de creación compartida donde el orden y el respeto por las normas garantizan el éxito de tus proyectos.
+            </p>
+        </div>
+    </div>
+</div>
+                <div class="maker-card">
+                    <ul>
+                        <li><i class="fas fa-check-circle color-sena"></i> Seguir instrucciones del facilitador en todo momento.</li>
+                        <li><i class="fas fa-ban color-orange"></i> Prohibido comer o beber dentro del laboratorio (riesgo de contaminación).</li>
+                        <li><i class="fas fa-running"></i> No correr ni jugar; un tropiezo puede dañar un prototipo costoso.</li>
+                        <li><i class="fas fa-mobile-alt"></i> Celulares solo para fines académicos bajo autorización.</li>
+                    </ul>
+                </div>
+                <div class="image-grid">
+    <div class="image-card">
+        <img src="imagenes/Seguridad/Prohibido comer.jpg">
+        <p>No alimentos</p>
+        <span class="img-detail">Evita derrames sobre circuitos y la ingestión accidental de residuos químicos o polvo de materiales.</span>
+    </div>
+    <div class="image-card">
+        <img src="imagenes/Seguridad/Prohibido fumar.jpg">
+        <p>No fumar</p>
+        <span class="img-detail">El laboratorio contiene materiales inflamables y baterías de litio que pueden reaccionar ante chispas o calor.</span>
+    </div>
+    <div class="image-card">
+        <img src="imagenes/Seguridad/prohibido correr.jpg">
+        <p>No correr</p>
+        <span class="img-detail">Mantiene el orden y evita colisiones con otros Makers que puedan estar manipulando herramientas calientes o cortantes.</span>
+    </div>
+    <div class="image-card">
+        <img src="imagenes/Seguridad/Prohibido usar telefonos moviles.jpg">
+        <p>No móviles</p>
+        <span class="img-detail">Las distracciones son la principal causa de accidentes. Úsalos solo para documentar tu proyecto bajo supervisión.</span>
+    </div>
+    <div class="image-card">
+        <img src="imagenes/Seguridad/Prohibido empujar.jpg">
+        <p>No empujar</p>
+        <span class="img-detail">El respeto al espacio personal es vital para el manejo seguro de herramientas de precisión y maquinaria.</span>
+    </div>
+</div>
+                <div class="nav-controls">
+                    <button class="btn-maker btn-next" onclick="showSection(2)">Siguiente: Seguridad Eléctrica <i class="fas fa-bolt"></i></button>
+                </div>
+            </div>
+
+            <div id="sec-2" class="protocol-section">
+                <h2 class="section-title">2. Seguridad Eléctrica</h2>
+		<div class="maker-card" style="border-left: 5px solid #FFD600; background: #FFFDE7;">
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <i class="fas fa-bolt" style="font-size: 2rem; color: #FBC02D;"></i>
+            <div>
+                <h4 style="margin: 0; color: var(--sena-blue);">Energía en Movimiento</h4>
+                <p style="margin: 5px 0 0; font-size: 0.95rem;">
+                    ¡Bienvenido al núcleo de potencia! En esta sección aprenderás a dominar la <strong>seguridad eléctrica</strong>. Todo proyecto Maker necesita energía, pero manipularla requiere respeto y conocimiento técnico para evitar riesgos innecesarios.
+                </p>
+            </div>
+        </div>
+    </div>
+                <div class="maker-card" style="background: #FFF3E0;">
+                    <p><strong>¡Atención!</strong> La electricidad no se ve, pero se siente. En la construcción de prototipos mecánicos usaremos fuentes DC y soldadores.</p>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Revisión Previa:</strong> Nunca conectes un circuito sin que el facilitador lo verifique.</li>
+                        <li><strong>Humedad:</strong> Manos siempre secas al manipular cables o fuentes.</li>
+                        <li><strong>Emergencia:</strong> Si ves humo o chispas, desconecta de inmediato y avisa.</li>
+                    </ul>
+                </div>
+                <div class="image-grid">
+    <div class="image-card">
+        <img src="imagenes/Seguridad/Riesgo electrico.jpg">
+        <p>Riesgo Eléctrico</p>
+        <span class="img-detail">Identifica voltajes peligrosos. Nunca manipules tableros o fuentes de poder sin protección o autorización del tutor.</span>
+    </div>
+
+    <div class="image-card">
+        <img src="imagenes/Seguridad/prohibido trabajo en caliente.jpg">
+        <p>Calor extremo</p>
+        <span class="img-detail">El uso de cautines y pistolas de calor requiere superficies ignífugas. Evita trabajar cerca de materiales inflamables.</span>
+    </div>
+
+    <div class="image-card">
+        <img src="imagenes/Seguridad/Apagar cuando no se use.jpg">
+        <p>Desconectar</p>
+        <span class="img-detail">Al terminar, apaga y desconecta las herramientas. Esto evita sobrecalentamientos y ahorra energía en el laboratorio.</span>
+    </div>
+</div>
+                <div class="nav-controls">
+                    <button class="btn-maker btn-next" onclick="showSection(3)">Siguiente: Robótica <i class="fas fa-robot"></i></button>
+                </div>
+            </div>
+
+            <div id="sec-3" class="protocol-section">
+                <h2 class="section-title">3. Robótica y Mecánica Aplicada</h2>
+		<div class="maker-card" style="border-left: 5px solid #00ACC1; background: #E0F7FA;">
+    <div style="display: flex; align-items: center; gap: 15px;">
+        <i class="fas fa-robot" style="font-size: 2rem; color: #00838F;"></i>
+        <div>
+            <h4 style="margin: 0; color: var(--sena-blue);">Ingeniería en Acción</h4>
+            <p style="margin: 5px 0 0; font-size: 0.95rem;">
+                ¡Bienvenido al área de <strong>Robótica y Mecánica</strong>! Aquí tus ideas cobran movimiento. Para que tus prototipos funcionen correctamente y los equipos duren mucho tiempo, es vital aprender a manipular los componentes con precisión y cuidado técnico.
+            </p>
+        </div>
+    </div>
+</div>
+                <div class="maker-card">
+                    <p>Cuidar los kits es vital para que otros Makers puedan aprender después de ti.</p>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Motores:</strong> No fuerces los ejes manualmente; puedes romper los piñones internos.</li>
+                        <li><strong>Piezas Pequeñas:</strong> Mantén los tornillos y tuercas en cajas organizadoras.</li>
+                        <li><strong>Residuos:</strong> Las baterías viejas y cables cortados van al contenedor RAEE.</li>
+                    </ul>
+                </div>
+               <div class="image-grid">
+    <div class="image-card">
+        <img src="imagenes/Seguridad/Atención, alta temperatura.jpg">
+        <p>Calor</p>
+        <span class="img-detail">Precaución al usar cautines o pistolas de silicona; espera a que las piezas se enfríen antes de manipularlas.</span>
+    </div>
+    
+    <div class="image-card">
+        <img src="imagenes/Seguridad/Atención, elementos afilados.jpg">
+        <p>Cortes</p>
+        <span class="img-detail">Usa bisturís y pelacables siempre en dirección opuesta a tu cuerpo y mantén los dedos lejos del área de corte.</span>
+    </div>
+
+    <div class="image-card">
+        <img src="imagenes/Seguridad/Riesgo de aplastamiento.jpg">
+        <p>Aplastamiento</p>
+        <span class="img-detail">Evita acercar las manos a engranajes o partes móviles de robots en funcionamiento. Apaga antes de ajustar.</span>
+    </div>
+
+    <div class="image-card">
+        <img src="imagenes/Seguridad/Atención, a las manos.jpg">
+        <p>Cuidado manos</p>
+        <span class="img-detail">Tus manos son tu herramienta principal. Evita usar anillos o pulseras que puedan enredarse en motores o ejes.</span>
+    </div>
+</div>
+                <div class="nav-controls">
+                    <button class="btn-maker btn-next" onclick="showSection(4)">Siguiente: Bioseguridad <i class="fas fa-biohazard"></i></button>
+                </div>
+            </div>
+
+           <div id="sec-4" class="protocol-section">
+    <h2 class="section-title">4. Bioseguridad en Laboratorios</h2>
+
+    <div class="maker-card" style="border-left: 5px solid #9C27B0; background: #F3E5F5;">
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <i class="fas fa-microscope" style="font-size: 2rem; color: #7B1FA2;"></i>
+            <div>
+                <h4 style="margin: 0; color: var(--sena-blue);">Entornos Controlados</h4>
+                <p style="margin: 5px 0 0; font-size: 0.95rem;">
+                    La <strong>Bioseguridad</strong> no es solo para médicos. En la ingeniería y el prototipado, manejamos sustancias, microorganismos en bio-impresión y residuos que requieren un control estricto para evitar la contaminación del ambiente y de nosotros mismos.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="maker-card">
+        <h4 style="color: var(--sena-blue); margin-bottom: 10px;"><i class="fas fa-layer-group"></i> Niveles de Bioseguridad (BSL)</h4>
+        <p style="font-size: 0.85rem; margin-bottom: 15px;">Los niveles de bioseguridad (BioSafety Levels) definen las barreras de protección necesarias en un laboratorio:</p>
+        
+        <table style="width:100%; border-collapse: collapse; font-size: 0.85rem; background: white; border-radius: 8px; overflow: hidden;">
+            <thead>
+                <tr style="background: var(--sena-blue); color: white; text-align: left;">
+                    <th style="padding: 12px; border: 1px solid #ddd;">Nivel</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Agentes Típicos</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Prácticas de Seguridad</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold; color: #39A900;">BSL-1: Básico</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Microorganismos que no causan enfermedades en adultos sanos (E. coli inofensiva).</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Lavado de manos, uso de EPP básico y desinfección de superficies.</td>
+                </tr>
+                <tr style="background: #f9f9f9;">
+                    <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold; color: #FBC02D;">BSL-2: Moderado</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Agentes de riesgo moderado (Gripe, Hepatitis, Estafilococos).</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Acceso restringido, uso de cabinas de flujo laminar y señalización de riesgo biológico.</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold; color: var(--sena-orange);">BSL-3: Alto</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Agentes exóticos o respiratorios serios (Tuberculosis, SARS).</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Ventilación controlada (presión negativa), doble puerta y equipo de respiración.</td>
+                </tr>
+                <tr style="background: #f9f9f9;">
+                    <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold; color: #d32f2f;">BSL-4: Extremo</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Agentes peligrosos sin cura (Ébola, Virus de Lassa).</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Trajes presurizados independientes y cambio total de ropa al salir.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="maker-card" style="background: #E8F5E9; border: 1px solid #C8E6C9;">
+        <h4 style="color: #2E7D32;"><i class="fas fa-recycle"></i> Gestión de Residuos Maker</h4>
+        <p style="font-size: 0.9rem; margin-top: 5px;">Tan importante como la seguridad es saber dónde termina lo que usamos:</p>
+        <div class="image-grid" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="image-card" style="min-height: auto;">
+                <i class="fas fa-trash-alt" style="font-size: 1.5rem; color: #d32f2f;"></i>
+                <p style="margin-top: 5px;">Guardianes</p>
+                <span class="img-detail">Objetos cortopunzantes (agujas, cuchillas, lancetas).</span>
+            </div>
+            <div class="image-card" style="min-height: auto;">
+                <i class="fas fa-biohazard" style="font-size: 1.5rem; color: #d32f2f;"></i>
+                <p style="margin-top: 5px;">Bolsa Roja</p>
+                <span class="img-detail">Residuos biosanitarios con fluidos o riesgo biológico.</span>
+            </div>
+            <div class="image-card" style="min-height: auto;">
+                <i class="fas fa-battery-half" style="font-size: 1.5rem; color: #59667a;"></i>
+                <p style="margin-top: 5px;">RAEE</p>
+                <span class="img-detail">Residuos de Aparatos Eléctricos y Electrónicos.</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-controls">
+        <button class="btn-maker btn-next" onclick="showSection(5)">Siguiente: EPP <i class="fas fa-hard-hat"></i></button>
+    </div>
+</div>
+
+            <div id="sec-5" class="protocol-section">
+    <h2 class="section-title">5. Elementos de Protección Personal (EPP)</h2>
+
+    <div class="maker-card" style="border-left: 5px solid var(--sena-green); background: #f0fdf4;">
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <i class="fas fa-user-shield" style="font-size: 2rem; color: var(--sena-green);"></i>
+            <div>
+                <h4 style="margin: 0; color: var(--sena-blue);">Tu Armadura de Creador</h4>
+                <p style="margin: 5px 0 0; font-size: 0.95rem;">
+                    En la Academia Makers, los EPP no son accesorios opcionales; son tu primera línea de defensa contra riesgos físicos y biológicos. Antes de iniciar cualquier proyecto, asegúrate de tener tu equipo completo y en buen estado.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="image-grid">
+        <div class="image-card">
+            <img src="imagenes/Seguridad/Uso obligatorio de bata.jpg" alt="Bata de Laboratorio">
+            <p>Bata de Laboratorio</p>
+            <span class="img-detail">
+                Protege tu piel y ropa de salpicaduras químicas, partículas desprendidas y fluidos. Debe ser de tela resistente y usarse siempre abotonada para evitar enganches con maquinaria.
+            </span>
+        </div>
+
+        <div class="image-card">
+            <img src="imagenes/Seguridad/Uso obligatorio de gafas.jpg" alt="Gafas de Seguridad">
+            <p>Gafas de Seguridad</p>
+            <span class="img-detail">
+                Blindaje ocular contra virutas de metal, chispas de soldadura o salpicaduras de líquidos. Su diseño envolvente previene impactos laterales que podrían causar lesiones permanentes.
+            </span>
+        </div>
+
+        <div class="image-card">
+            <img src="imagenes/Seguridad/Uso obligatorio de guantes.jpg" alt="Guantes de Protección">
+            <p>Guantes de Protección</p>
+            <span class="img-detail">
+                Barrera esencial según la tarea: de nitrilo para químicos o de protección mecánica para manipular piezas ásperas. Evitan dermatitis por contacto y cortes leves.
+            </span>
+        </div>
+
+        <div class="image-card">
+            <img src="imagenes/Seguridad/Uso obligatorio de mascarilla.jpg" alt="Mascarilla de Protección">
+            <p>Mascarilla / Tapabocas</p>
+            <span class="img-detail">
+                Filtra partículas suspendidas en el aire, humos de soldadura y aerosoles biológicos. Es vital para prevenir la inhalación de polvos tóxicos durante el lijado o prototipado.
+            </span>
+        </div>
+    </div>
+
+    <div class="maker-card" style="margin-top: 20px;">
+        <h4 style="color: var(--sena-blue); border-bottom: 1px solid #ddd; padding-bottom: 5px;">
+            <i class="fas fa-accessibility"></i> Ergonomía Maker
+        </h4>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 10px;">
+            <p><i class="fas fa-chair" style="color: var(--sena-orange);"></i> <strong>Postura:</strong> Mantén la espalda recta y los pies apoyados. Ajusta la altura de tu mesa para que tus brazos formen un ángulo de 90°.</p>
+            <p><i class="fas fa-eye" style="color: var(--sena-orange);"></i> <strong>Pausas Activas:</strong> Aplica la regla 20-20-20: cada 20 minutos, mira algo a 20 pies (6 metros) durante 20 segundos para evitar la fatiga visual.</p>
+        </div>
+    </div>
+
+    <div class="nav-controls">
+        <button class="btn-maker btn-next" onclick="showSection(6)">Siguiente: Primeros Auxilios <i class="fas fa-medkit"></i></button>
+    </div>
+</div>
+
+           <div id="sec-6" class="protocol-section">
+    <h2 class="section-title">6. Primeros Auxilios Básicos</h2>
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        
+        <div class="maker-card">
+            <h5><i class="fas fa-band-aid"></i> Cortes y Heridas</h5>
+            <p>Lavar con abundante agua, presionar para detener sangrado y avisar al facilitador.</p>
+        </div>
+
+        <div class="maker-card">
+            <h5><i class="fas fa-fire-extinguisher"></i> Quemaduras</h5>
+            <p>Enfriar con agua corriente por 15 min. No aplicar cremas ni romper ampollas.</p>
+        </div>
+
+        <div class="maker-card" style="border-left: 5px solid #ffeb3b;">
+            <h5><i class="fas fa-bolt"></i> Choque Eléctrico</h5>
+            <p>No tocar a la persona. Desconectar la fuente de energía primero. Pedir ayuda médica inmediata.</p>
+        </div>
+
+        <div class="maker-card" style="border-left: 5px solid #00bcd4;">
+            <h5><i class="fas fa-eye-dropper"></i> Salpicaduras Químicas</h5>
+            <p>Lavar la zona o los ojos con agua continua por 20 minutos. No frotar la zona afectada.</p>
+        </div>
+
+        <div class="maker-card" style="border-left: 5px solid #9c27b0;">
+            <h5><i class="fas fa-user-md"></i> Desmayos o Síncope</h5>
+            <p>Acostar a la persona boca arriba, elevar sus piernas 30cm y asegurar que haya ventilación.</p>
+        </div>
+
+        <div class="maker-card" style="border-left: 5px solid var(--sena-green);">
+            <h5><i class="fas fa-briefcase-medical"></i> Ubicación del Botiquín</h5>
+            <p>Identifica el kit de emergencia más cercano. Solo usar suministros bajo supervisión del facilitador.</p>
+        </div>
+
+    </div>
+
+    <div class="nav-controls">
+        <button class="btn-maker btn-next" onclick="showSection(7)">Siguiente: Evacuación <i class="fas fa-door-open"></i></button>
+    </div>
+</div>
+
+            <div id="sec-7" class="protocol-section">
+    <h2 class="section-title">7. Plan de Evacuación y Emergencias</h2>
+
+    <div class="maker-card" style="border-left: 5px solid var(--sena-orange); background: #fff7ed;">
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <i class="fas fa-exclamation-triangle" style="font-size: 2rem; color: var(--sena-orange);"></i>
+            <div>
+                <h4 style="margin: 0; color: var(--sena-blue);">Protocolo de Reacción Inmediata</h4>
+                <p style="margin: 5px 0 0; font-size: 0.95rem;">
+                    En la Academia Makers, estar preparados es parte del diseño. Un plan de evacuación es un algoritmo de supervivencia: ante una emergencia, debemos actuar de forma coordinada para proteger la vida. Identifica tus rutas y mantén siempre la calma.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="maker-card">
+        <p><strong>Procedimiento Estándar:</strong> En caso de activarse la alarma o recibir la orden de evacuación, sigue estos pasos:</p>
+        <ol style="margin-left: 20px; margin-top: 10px;">
+            <li><strong>Asegurar:</strong> Detén el uso de herramientas eléctricas o químicas inmediatamente.</li>
+            <li><strong>Apagar:</strong> Si el tiempo lo permite, presiona los botones de emergencia (Setas) o desconecta fuentes de poder.</li>
+            <li><strong>Evacuar:</strong> Camina con paso firme hacia la salida más cercana siguiendo la señalización verde.</li>
+        </ol>
+    </div>
+
+    <div class="image-grid">
+        <div class="image-card">
+            <img src="imagenes/Seguridad/Extintor.jpg" alt="Extintor">
+            <p>Extintor</p>
+            <span class="img-detail">
+                Dispositivo de primera respuesta. Identifica su ubicación y tipo (Multipropósito o CO2) para combatir amagos de incendio antes de que se propaguen.
+            </span>
+        </div>
+
+        <div class="image-card">
+            <img src="imagenes/Seguridad/prohibido correr.jpg" alt="No Correr">
+            <p>No correr</p>
+            <span class="img-detail">
+                Durante una evacuación, correr genera pánico y caídas. Mantener un paso rápido pero constante asegura que todos salgan de forma fluida y segura.
+            </span>
+        </div>
+
+        <div class="image-card">
+            <img src="imagenes/Seguridad/Prohibido empujar.jpg" alt="No Empujar">
+            <p>No empujar</p>
+            <span class="img-detail">
+                El respeto al compañero es vital. Empujar en pasillos o escaleras puede causar bloqueos en las vías de salida y accidentes graves.
+            </span>
+        </div>
+        
+        <div class="image-card">
+            <img src="imagenes/Seguridad/punto_encuentro.png" alt="Punto de Encuentro">
+            <p>Punto de Encuentro</p>
+            <span class="img-detail">
+                Zona segura designada fuera del edificio. Al llegar, repórtate con tu facilitador para confirmar que todo el equipo Maker está a salvo.
+            </span>
+        </div>
+    </div>
+
+    <div class="nav-controls">
+        <button class="btn-maker btn-next" onclick="showSection(8)">Ir a la Evaluación Final <i class="fas fa-graduation-cap"></i></button>
+    </div>
+</div>
+
+            <div id="sec-8" class="protocol-section">
+                <h2 class="section-title">Evaluación de Seguridad</h2>
+                <div class="quiz-container" id="quiz-form">
+                    <div class="quiz-question">
+                        <h4>1. ¿Qué debes hacer antes de conectar un circuito por primera vez?</h4>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q1" value="a"> Conectarlo rápido para probar.</label>
+                            <label><input type="radio" name="q1" value="b"> Pedir revisión al facilitador.</label>
+                            <label><input type="radio" name="q1" value="c"> Soplar los cables.</label>
+                        </div>
+                    </div>
+                    <div class="quiz-question">
+                        <h4>2. ¿Por qué está prohibido comer en el laboratorio?</h4>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q2" value="a"> Por riesgo de contaminación y daño a equipos.</label>
+                            <label><input type="radio" name="q2" value="b"> Porque el facilitador tiene hambre.</label>
+                            <label><input type="radio" name="q2" value="c"> Porque los robots se comen la comida.</label>
+                        </div>
+                    </div>
+                    <div class="quiz-question">
+                        <h4>3. ¿Cuál es el nivel de bioseguridad para laboratorios educativos básicos?</h4>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q3" value="a"> BSL-4</label>
+                            <label><input type="radio" name="q3" value="b"> BSL-1</label>
+                            <label><input type="radio" name="q3" value="c"> BSL-10</label>
+                        </div>
+                    </div>
+                    <div class="quiz-question">
+                        <h4>4. En caso de quemadura, ¿qué es lo primero que debes hacer?</h4>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q4" value="a"> Aplicar mantequilla.</label>
+                            <label><input type="radio" name="q4" value="b"> Enfriar con agua corriente por 15 min.</label>
+                            <label><input type="radio" name="q4" value="c"> Romper las ampollas.</label>
+                        </div>
+                    </div>
+                    <div class="quiz-question">
+                        <h4>5. ¿Cómo se deben entregar los kits de robótica?</h4>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q5" value="a"> En una bolsa mezclados.</label>
+                            <label><input type="radio" name="q5" value="b"> Completos y ordenados.</label>
+                            <label><input type="radio" name="q5" value="c"> No es necesario entregarlos.</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="display: flex; justify-content: center; width: 100%; margin-top: 25px;">
+    <button class="btn-maker btn-next" 
+            style="background: var(--sena-blue); box-shadow: 0 4px 0 #001a2d;" 
+            onclick="checkQuiz()">
+        Validar Respuestas
+    </button>
+</div>
+                <button id="btn-finish" class="btn-maker btn-next" style="display:none; width: 100%; justify-content: center; margin-top: 30px;" onclick="showCelebration()">
+                    <i class="fas fa-medal"></i> FINALIZAR ACTIVIDAD
+                </button>
+            </div>
+
+        </main>
+    </div>
+
+    <div id="insignia-overlay">
+        <img src="imagenes/Insignias/insignias Mohs/00 - Insignias MOHS-Bronce.png" class="insignia-anim" alt="Insignia Bronce">
+        <h2>¡FELICITACIONES MAKER!</h2>
+        <p>Has ganado la <strong>Insignia de Bronce</strong>.<br>Has demostrado ser un experto en protocolos de bioseguridad.</p>
+        <button class="btn-maker btn-next" style="margin-top: 30px;" onclick="finishModule()">
+            CONTINUAR AL CENTRO DE COMANDO
+        </button>
+    </div>
+
+    <script>
+        const storageKey = 'makerCourseState';
+
+        function showSection(id) {
+    // 1. Manejo de clases activas en el menú
+    document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
+    const items = document.querySelectorAll('.menu-item');
+    if(items[id]) items[id].classList.add('active');
+    
+    // 2. Mostrar la sección correspondiente
+    document.querySelectorAll('.protocol-section').forEach(sec => sec.classList.remove('active'));
+    document.getElementById('sec-' + id).classList.add('active');
+    
+    // 3. ACTUALIZACIÓN DE LA BARRA DE PROGRESO
+    // Calculamos el porcentaje: (índice actual / total de índices) * 100
+    // Como son 9 ítems (del 0 al 8), el total de pasos es 8.
+    const totalSteps = items.length - 1;
+    const percentage = Math.round((id / totalSteps) * 100);
+    
+    document.getElementById('progress-fill').style.width = percentage + '%';
+    document.getElementById('progress-percent').innerText = percentage + '%';
+
+    window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// Llamar a la función al cargar para que inicie en el porcentaje correcto
+window.onload = function() {
+    showSection(0);
+};
+
+        function checkQuiz() {
+            const answers = { q1: 'b', q2: 'a', q3: 'b', q4: 'b', q5: 'b' };
+            let score = 0;
+            for (let i = 1; i <= 5; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                if (selected && selected.value === answers['q' + i]) score++;
+            }
+
+            if (score >= 3) {
+                alert(`¡Excelente! Lograste ${score}/5 correctas.`);
+                document.getElementById('btn-finish').style.display = 'flex';
+                document.getElementById('btn-finish').scrollIntoView({behavior: 'smooth'});
+            } else {
+                alert(`Puntuación: ${score}/5. Revisa los protocolos e intenta de nuevo.`);
+            }
+        }
+
+        function showCelebration() {
+            document.getElementById('insignia-overlay').style.display = 'flex';
+        }
+
+        function finishModule() {
+            // 1. Obtener el estado actual del localStorage
+            let state = JSON.parse(localStorage.getItem(storageKey));
+            
+            if (state) {
+                // 2. Marcar este módulo (ID: 2) como completado si no lo está
+                if (!state.completedModules.includes(2)) {
+                    state.completedModules.push(2);
+                }
+                
+                // 3. Desbloquear el siguiente módulo: Reflexión Inicial (ID: 3)
+                if (!state.unlockedModules.includes(3)) {
+                    state.unlockedModules.push(3);
+                }
+                
+                // 4. Guardar los cambios en el almacenamiento local
+                localStorage.setItem(storageKey, JSON.stringify(state));
+            }
+            
+            // 5. Regresar al index para ver el progreso actualizado
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

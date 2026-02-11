@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo 0: Ficha Técnica de Misión</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            /* Paleta Institucional SENA */
+            --sena-green: #39A900; 
+            --sena-blue: #00324D; 
+            --sena-orange: #FF6C00;
+            --bg-body: #F4F6F9; 
+            --bg-card: #FFFFFF; 
+            --text-gray: #59667a;
+            --shadow: 0 4px 20px rgba(0,0,0,0.05); 
+            --radius: 12px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Roboto', sans-serif; background-color: var(--bg-body); color: var(--sena-blue); line-height: 1.6; }
+        
+        /* HEADER */
+        header { 
+    background-color: var(--bg-card); 
+    padding: 0.5rem 2rem; 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; /* Distribuye: Izquierda, Centro, Derecha */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
+    position: sticky; 
+    top: 0; 
+    z-index: 100; 
+    height: 75px; 
+}
+
+.header-center {
+    flex: 1; 
+    text-align: center;
+}
+
+.header-center h1 {
+    font-family: 'Montserrat';
+    font-size: 1rem;
+    color: var(--sena-blue);
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+        .header-left { display: flex; align-items: center; gap: 20px; }
+        .back-btn { text-decoration: none; color: var(--sena-blue); font-weight: bold; display: flex; align-items: center; gap: 10px; transition: color 0.3s; }
+        .back-btn:hover { color: var(--sena-orange); }
+
+        /* CONTENIDO */
+        .container { max-width: 1000px; margin: 2rem auto; padding: 0 20px; }
+        .banner-container { width: 100%; margin-bottom: 2rem; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); background: white; text-align: center; }
+        .banner-container img { width: 100%; max-height: 350px; object-fit: cover; transition: transform 0.5s; }
+        .banner-container:hover img { transform: scale(1.02); }
+        
+        .info-card { background: var(--bg-card); border-radius: var(--radius); padding: 2.5rem; box-shadow: var(--shadow); border-top: 6px solid var(--sena-green); margin-bottom: 2rem; }
+        
+        .main-title { font-family: 'Montserrat'; text-align: center; color: var(--sena-blue); margin-bottom: 2rem; font-size: 2rem; }
+        
+        .section-title { font-family: 'Montserrat'; color: var(--sena-green); font-size: 1.1rem; margin-bottom: 0.8rem; text-transform: uppercase; display: flex; align-items: center; gap: 10px; font-weight: 700; }
+        
+        .data-block { margin-bottom: 2rem; padding: 1.5rem; background: #f8fafc; border-radius: 10px; border-left: 4px solid #e2e8f0; transition: all 0.3s; }
+        .data-block:hover { border-left-color: var(--sena-orange); background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .data-value { font-size: 1.1rem; color: var(--sena-blue); }
+
+        /* ACORDEÓN PARA JUSTIFICACIÓN */
+        .accordion-item { border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 10px; overflow: hidden; }
+        .accordion-header { background: var(--sena-blue); color: white; padding: 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
+        .accordion-content { padding: 20px; display: none; background: white; font-size: 0.95rem; text-align: justify; }
+
+        /* GRID PARA RAPS Y CRITERIOS */
+        .grid-info { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 1rem; }
+        .item-card { background: #fff; padding: 1.5rem; border-radius: 10px; border: 1px solid #edf2f7; position: relative; transition: transform 0.3s; }
+        .item-card:hover { transform: translateY(-5px); }
+        .item-card i { color: var(--sena-orange); margin-bottom: 10px; font-size: 1.5rem; }
+
+        /* QUIZ SECCIÓN */
+        .quiz-container { background: #fff; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow); border: 2px solid var(--sena-blue); margin-top: 3rem; }
+        .quiz-question { font-weight: bold; margin-bottom: 1.5rem; color: var(--sena-blue); }
+        .quiz-options { display: grid; gap: 10px; }
+        .quiz-opt { padding: 12px 20px; border: 2px solid #edf2f7; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+        .quiz-opt:hover { border-color: var(--sena-green); background: #f0fdf4; }
+        .quiz-opt.selected { background: var(--sena-green); color: white; border-color: var(--sena-green); }
+
+        /* ANIMACIÓN DE ÉXITO */
+        #successOverlay { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0, 50, 77, 0.95); display: none; 
+            flex-direction: column; justify-content: center; align-items: center; 
+            z-index: 2000; color: white; text-align: center; padding: 2rem;
+        }
+        .success-box { animation: zoomIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes zoomIn { from { transform: scale(0); } to { transform: scale(1); } }
+        
+        .btn-finish-all { background: var(--sena-orange); color: white; border: none; padding: 15px 40px; font-size: 1.2rem; border-radius: 30px; cursor: pointer; margin-top: 2rem; font-weight: bold; }
+
+        /* BOTÓN DE FINALIZACIÓN */
+        .action-area { text-align: center; margin-top: 3rem; padding: 2rem; background: #f0fdf4; border-radius: var(--radius); border: 2px dashed var(--sena-green); }
+        .btn-complete { background: var(--sena-green); color: white; border: none; padding: 15px 40px; font-size: 1.1rem; border-radius: 30px; cursor: pointer; font-weight: bold; display: none; align-items: center; gap: 10px; margin: 0 auto; transition: 0.3s; }
+        .btn-complete:hover { background: #2e8b00; box-shadow: 0 4px 15px rgba(57, 169, 0, 0.4); }
+
+/* BOTÓN DESCARGA PDF */
+        .pdf-container {
+            text-align: center;
+            margin: 1rem 0 2rem 0;
+        }
+
+        .btn-pdf {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--sena-orange);
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-family: 'Montserrat';
+            box-shadow: 0 4px 15px rgba(255, 108, 0, 0.3);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .btn-pdf:hover {
+            background: var(--sena-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 50, 77, 0.4);
+        }
+
+        .btn-pdf i {
+            font-size: 1.4rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            <img src="imagenes/Logos/sena.png" alt="Logo SENA" style="height: 50px;">
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Volver al Centro de Comando</a>
+        </div>
+<div class="header-center">
+        <h1>Módulo 0: Identificación de la Guía</h1>
+    </div>
+
+        <img src="imagenes/Logos/tecnoacademia.jpeg" alt="Logo Tecnoacademia" style="height: 50px;">
+    </header>
+
+    <div class="container">
+        
+        <div class="banner-container">
+            <img src="imagenes/Fondos/Titulos_Mesa de trabajo 1 copia.png" alt="Banner Prototipos Mecánicos">
+        </div>
+
+        <div class="info-card">
+            <h1 class="main-title">Ficha Técnica de Misión Maker</h1>
+
+            <div class="data-block">
+                <div class="section-title"><i class="fas fa-robot"></i> Programa de Formación</div>
+                <div class="data-value" style="font-weight:700; font-size: 1.4rem;">ELABORACIÓN Y CONSTRUCCIÓN DE PROTOTIPOS MECÁNICOS</div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                <div class="data-block">
+                    <div class="section-title"><i class="fas fa-fingerprint"></i> Código de Ficha</div>
+                    <div class="data-value">22520106</div>
+                </div>
+                <div class="data-block">
+                    <div class="section-title"><i class="fas fa-hourglass-half"></i> Duración Total</div>
+                    <div class="data-value">144 Horas de Entrenamiento</div>
+                </div>
+            </div>
+
+            <div class="data-block">
+                <div class="section-title"><i class="fas fa-award"></i> Competencia Técnica Principal</div>
+                <div class="data-value">Dibujar planos mecánicos de acuerdo con normas técnicas y estándares internacionales de ingeniería.</div>
+            </div>
+
+<div class="pdf-container">
+                <a href="documentos/22520106 ELABORACIÓN Y CONSTRUCCION DE PROTOTIPOS MECÁNICOS (Actualización) Versión 3.pdf" 
+                   target="_blank" 
+                   class="btn-pdf">
+                    <i class="fas fa-file-pdf"></i> VER FICHA TÉCNICA COMPLETA (PDF)
+                </a>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion('justification')">
+                    <span><i class="fas fa-info-circle"></i> ¿POR QUÉ ESTE PROGRAMA ES CLAVE?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div id="justification" class="accordion-content">
+                    <p>En el mundo actual, las industrias dependen de mentes capaces de convertir ideas en realidades tangibles. Este programa, nacido desde el corazón de <strong>SENNOVA</strong>, te prepara para ser un motor de cambio tecnológico.</p>
+                    <br>
+                    <p>Aprenderás no solo a manejar software de vanguardia, sino a entender la <strong>mecánica, electrónica y robótica</strong> como un todo. Al finalizar, tendrás habilidades en modelado 2D/3D, prototipado rápido y validación técnica, herramientas que te abren las puertas a la innovación rural e industrial en todo el país.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-card" style="border-top-color: var(--sena-orange);">
+            <div class="section-title" style="color:var(--sena-blue); font-size: 1.5rem; justify-content: center;">
+                <i class="fas fa-bullseye" style="color:var(--sena-orange)"></i> Objetivos de la Misión (RAPs)
+            </div>
+            <p style="text-align:center; color: var(--text-gray); margin-bottom: 2rem;">Estos son los hitos que conquistarás durante el curso:</p>
+            
+            <div class="grid-info">
+                <div class="item-card">
+                    <i class="fas fa-lightbulb"></i>
+                    <strong>Definición:</strong> Establecer el prototipo de solución ideal usando metodologías como Design Thinking.
+                </div>
+                <div class="item-card">
+                    <i class="fas fa-pencil-ruler"></i>
+                    <strong>Diseño:</strong> Crear el diseño a escala detallado, asegurando que cada pieza encaje a la perfección.
+                </div>
+                <div class="item-card">
+                    <i class="fas fa-vial"></i>
+                    <strong>Validación:</strong> Poner a prueba tu prototipo bajo normas técnicas reales para asegurar su funcionalidad.
+                </div>
+                <div class="item-card">
+                    <i class="fas fa-file-alt"></i>
+                    <strong>Documentación:</strong> Registrar todo el proceso técnico para que tu invento pueda ser replicado y mejorado.
+                </div>
+            </div>
+        </div>
+
+        
+
+        <div class="info-card" style="border-top-color: var(--sena-blue);">
+            <div class="section-title" style="color:var(--sena-blue); font-size: 1.5rem; justify-content: center;">
+                <i class="fas fa-tasks"></i> Criterios de Evaluación
+            </div>
+            <p style="text-align:center; color: var(--text-gray); margin-bottom: 2rem;">¿Cómo mediremos tu éxito como Maker?</p>
+            
+            <ul style="list-style: none; display: grid; gap: 10px;">
+                <li class="data-block" style="margin-bottom:0.5rem; border-left: 4px solid var(--sena-green);">
+                    <i class="fas fa-check" style="color:var(--sena-green)"></i> Identifica requerimientos técnicos precisos para la construcción.
+                </li>
+                <li class="data-block" style="margin-bottom:0.5rem; border-left: 4px solid var(--sena-green);">
+                    <i class="fas fa-check" style="color:var(--sena-green)"></i> Realiza proyecciones ortogonales y vistas técnicas con precisión.
+                </li>
+                <li class="data-block" style="margin-bottom:0.5rem; border-left: 4px solid var(--sena-green);">
+                    <i class="fas fa-check" style="color:var(--sena-green)"></i> Modela piezas en 3D respetando dimensiones y materiales.
+                </li>
+                <li class="data-block" style="margin-bottom:0.5rem; border-left: 4px solid var(--sena-green);">
+                    <i class="fas fa-check" style="color:var(--sena-green)"></i> Valida la solución técnica siguiendo protocolos de seguridad.
+                </li>
+            </ul>
+        </div>
+
+        <div class="quiz-container">
+            <h2 style="font-family:'Montserrat'; text-align:center; margin-bottom:1rem;">⚡ Check de Sincronización</h2>
+            <p style="text-align:center; margin-bottom:2rem;">Responde correctamente para desbloquear el siguiente módulo.</p>
+            
+            <div class="quiz-question">¿Cuál es el objetivo principal del área de Transferencia en este curso?</div>
+            <div class="quiz-options">
+                <div class="quiz-opt" onclick="checkQuiz(this, false)">Solo leer guías en PDF.</div>
+                <div class="quiz-opt" onclick="checkQuiz(this, true)">Construir y validar un prototipo mecánico real para solucionar un problema.</div>
+                <div class="quiz-opt" onclick="checkQuiz(this, false)">Aprender a dibujar únicamente a mano alzada.</div>
+            </div>
+        </div>
+
+        <div class="action-area" id="finalActionArea">
+            <h3 style="color:var(--sena-green); margin-bottom:1rem;">¡Misión Comprendida!</h3>
+            <p style="margin-bottom:1.5rem; color:var(--text-gray);">Has revisado los parámetros institucionales. Ahora estás listo para iniciar el entrenamiento.</p>
+            <button id="mainCompleteBtn" class="btn-complete" onclick="showSuccessAnimation()">
+                <i class="fas fa-rocket"></i> Entendido, Iniciar Entrenamiento
+            </button>
+        </div>
+    </div>
+
+    <div id="successOverlay">
+        <div class="success-box">
+            <i class="fas fa-check-circle" style="font-size: 6rem; color: var(--sena-green); margin-bottom: 2rem;"></i>
+            <h1 style="font-family: 'Montserrat'; font-size: 3.5rem;">¡FELICITACIONES!</h1>
+            <p style="font-size: 1.5rem; margin-top: 1rem;">Has completado el registro institucional con éxito.</p>
+            <p style="color: var(--sena-orange); font-weight: bold; margin-top: 10px;">NIVEL 1: NARRATIVA DESBLOQUEADO</p>
+            <button class="btn-finish-all" onclick="finishModule()">VOLVER AL TABLERO</button>
+        </div>
+    </div>
+
+    <script>
+        // Función para el acordeón
+        function toggleAccordion(id) {
+            const content = document.getElementById(id);
+            const icon = content.previousElementSibling.querySelector('.fa-chevron-down');
+            if (content.style.display === "block") {
+                content.style.display = "none";
+                icon.style.transform = "rotate(0deg)";
+            } else {
+                content.style.display = "block";
+                icon.style.transform = "rotate(180deg)";
+            }
+        }
+
+        // Lógica del Quiz para desbloquear el botón
+        function checkQuiz(element, isCorrect) {
+            // Limpiar selecciones previas
+            document.querySelectorAll('.quiz-opt').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+
+            if(isCorrect) {
+                document.getElementById('mainCompleteBtn').style.display = 'flex';
+                element.style.borderColor = "var(--sena-green)";
+            } else {
+                alert("Respuesta incorrecta. ¡Analiza bien los objetivos del programa!");
+                document.getElementById('mainCompleteBtn').style.display = 'none';
+            }
+        }
+
+        // Animación final
+        function showSuccessAnimation() {
+            document.getElementById('successOverlay').style.display = 'flex';
+        }
+
+        // Función de finalización y persistencia
+        function finishModule() {
+            const storageKey = 'makerCourseState'; // Coincide con el Index
+            const savedState = localStorage.getItem(storageKey);
+            
+            if (savedState) {
+                const state = JSON.parse(savedState);
+                
+                // 1. Marcar Módulo 0 como Completado
+                if (!state.completedModules.includes(0)) {
+                    state.completedModules.push(0);
+                }
+
+                // 2. Desbloquear Módulo 1 (Narrativa) automáticamente
+                if (!state.unlockedModules.includes(1)) {
+                    state.unlockedModules.push(1);
+                }
+
+                // 3. Guardar estado actualizado
+                localStorage.setItem(storageKey, JSON.stringify(state));
+                
+                // Redirigir al index
+                window.location.href = 'index.html';
+            } else {
+                // Si por alguna razón no hay sesión, igual enviamos al index para que se registre
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+</html>
